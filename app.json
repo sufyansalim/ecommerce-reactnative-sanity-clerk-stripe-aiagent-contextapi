@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "dokkani.co",
+    "slug": "dokkani",
+    "scheme": "dokkani",
+    "description": "Version 1.0 of Dokkani.co Ecommerce App",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dokkani.co"
+    },
+    "android": {
+      "package": "com.dokkani.co",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "dokkani"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-asset",
+      "expo-web-browser",
+      "expo-video",
+      "expo-secure-store"
+    ]
+  }
+}
