@@ -1,0 +1,16 @@
+{
+  "name": "dokkani-api",
+  "version": "1.0.0",
+  "description": "Dokkani.co API - Stripe Checkout, Sanity Orders & AI Search",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@sanity/client": "^6.15.0",
+    "micro": "^10.0.1",
+    "stripe": "^14.14.0"
+  }
+}

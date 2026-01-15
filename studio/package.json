@@ -1,0 +1,50 @@
+{
+  "name": "dokkani",
+  "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy",
+    "push": "node scripts/pushData.js",
+    "push:dry": "node scripts/pushData.js --dry-run",
+    "push:products": "node scripts/pushData.js --type=product",
+    "push:categories": "node scripts/pushData.js --type=category",
+    "push:celebrities": "node scripts/pushData.js --type=celebrity",
+    "push:tv": "node scripts/pushData.js --type=tvShow",
+    "publish": "node scripts/publishDocuments.js",
+    "publish:dry": "node scripts/publishDocuments.js --dry-run",
+    "bulk": "node scripts/sanityBulk.js",
+    "bulk:list": "node scripts/sanityBulk.js list",
+    "bulk:publish": "node scripts/sanityBulk.js publish",
+    "bulk:discard": "node scripts/sanityBulk.js discard"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/vision": "^5.3.1",
+    "react": "^19.1",
+    "react-dom": "^19.1",
+    "sanity": "^5.3.1",
+    "styled-components": "^6.1.18"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^6.0.0",
+    "@types/react": "^19.1",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.28",
+    "prettier": "^3.5",
+    "typescript": "^5.8"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100,
+    "bracketSpacing": false,
+    "singleQuote": true
+  }
+}

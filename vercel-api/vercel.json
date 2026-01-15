@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/ai-search.js": {
+      "maxDuration": 60
+    }
+  }
+}
