@@ -1,0 +1,122 @@
+import * as SplashScreen from 'expo-splash-screen';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Platform, StatusBar, StyleSheet, View, LogBox } from 'react-native';
+
+// Ignore SSRProvider warning from native-base (not needed in React 18)
+LogBox.ignoreLogs(['In React 18, SSRProvider is not necessary']);
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import { NativeBaseProvider } from 'native-base';
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
+import * as SecureStore from 'expo-secure-store';
+import Colors from './constants/Colors';
+
+// Redux Store
+import { Provider as ReduxProvider } from 'react-redux';
+import { store, AuthProvider } from './store';
+
+import AppNavigator from './navigation/AppNavigator';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
+// Token cache interface
+interface TokenCache {
+  getToken: (key: string) => Promise<string | null>;
+  saveToken: (key: string, value: string) => Promise<void>;
+}
+
+// Clerk token cache for secure storage
+const tokenCache: TokenCache = {
+  async getToken(key: string): Promise<string | null> {
+    try {
+      return SecureStore.getItemAsync(key);
+    } catch (err) {
+      return null;
+    }
+  },
+  async saveToken(key: string, value: string): Promise<void> {
+    try {
+      await SecureStore.setItemAsync(key, value);
+    } catch (err) {
+      return;
+    }
+  },
+};
+
+// Get Clerk publishable key from environment
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY as string;
+
+const App: React.FC = () => {
+  const [isLoadingComplete, setLoadingComplete] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function prepare(): Promise<void> {
+      try {
+        await loadResourcesAsync();
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setLoadingComplete(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async (): Promise<void> => {
+    if (isLoadingComplete) {
+      await SplashScreen.hideAsync();
+    }
+  }, [isLoadingComplete]);
+
+  if (!isLoadingComplete) {
+    return null;
+  }
+
+  return (
+    <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
+      <ClerkLoaded>
+        <SafeAreaProvider>
+          <View style={styles.container} onLayout={onLayoutRootView}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <NativeBaseProvider config={{ suppressColorAccessibilityWarning: true }}>
+              <ReduxProvider store={store}>
+                <AuthProvider>
+                  <AppNavigator />
+                </AuthProvider>
+              </ReduxProvider>
+            </NativeBaseProvider>
+          </View>
+        </SafeAreaProvider>
+      </ClerkLoaded>
+    </ClerkProvider>
+  );
+};
+
+async function loadResourcesAsync(): Promise<void> {
+  await Promise.all([
+    Asset.loadAsync([
+      require('./assets/images/robot-dev.png'),
+      require('./assets/images/robot-prod.png'),
+    ]),
+    Font.loadAsync({
+      // This is the font that we are using for our tab bar
+      ...Ionicons.font,
+      // We include SpaceMono because we use it in HomeScreen.tsx. Feel free to
+      // remove this if you are not using it in your app
+      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+    }),
+  ]);
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+});
+
+export default App;

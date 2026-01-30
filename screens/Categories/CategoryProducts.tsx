@@ -1,0 +1,294 @@
+import React, { useEffect, useState, useMemo } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
+
+import CustomHeader from '../../components/header/CustomHeader';
+import TwoColSlide from '../../components/sliders/TwoColSlide';
+import { getProductsByCategory } from '../../constants/SanityClient';
+import { SORT_LIST, PRICE_RANGES } from '../../constants/SanityConstants';
+import Colors from '../../constants/Colors';
+import { Product } from '../../types';
+
+interface SortOption {
+  id: string;
+  label: string;
+}
+
+interface PriceFilter {
+  id: string;
+  label: string;
+  min: number;
+  max: number;
+}
+
+const SORT_OPTIONS: SortOption[] = SORT_LIST;
+
+const PRICE_FILTERS: PriceFilter[] = [
+  { id: 'all', label: 'All Prices', min: 0, max: Infinity },
+  ...PRICE_RANGES.map(range => ({ 
+    id: range.id, 
+    label: range.label, 
+    min: range.min, 
+    max: range.max 
+  }))
+];
+
+interface FormattedProduct extends Product {
+  id: string;
+  numericPrice: number;
+  uri: string;
+  productImage: string;
+}
+
+interface CategoryProductsProps {
+  navigation: NavigationProp<any>;
+  route: RouteProp<any, 'CategoryProducts'>;
+}
+
+const CategoryProducts: React.FC<CategoryProductsProps> = ({ navigation, route }) => {
+  const [products, setProducts] = useState<FormattedProduct[]>([]);
+  const [sortBy, setSortBy] = useState<string>('default');
+  const [priceFilter, setPriceFilter] = useState<string>('all');
+  const [showSortModal, setShowSortModal] = useState<boolean>(false);
+  const [showFilterModal, setShowFilterModal] = useState<boolean>(false);
+  const { category } = route.params;
+
+  useEffect(() => {
+    loadProducts();
+  }, [category]);
+
+  const loadProducts = async (): Promise<void> => {
+    try {
+      // Convert category name to slug format for Sanity query
+      const categorySlug = category.toLowerCase().replace(/\s+/g, '-');
+      const { data, error } = await getProductsByCategory(categorySlug);
+      
+      if (error) throw new Error(error);
+      
+      // Transform Sanity data to match expected format
+      const formattedProducts: FormattedProduct[] = data.map((product: any) => ({
+        id: product._id,
+        _id: product._id,
+        title: product.title,
+        price: product.price,
+        numericPrice: product.price,
+        uri: product.image,
+        productImage: product.image,
+        image: product.image,
+        images: product.images,
+        category: product.category?.name || category,
+        description: product.description,
+        inStock: product.inStock,
+      }));
+      
+      setProducts(formattedProducts);
+    } catch (error) {
+      console.error('Error loading products:', error);
+    }
+  };
+
+  const filteredAndSortedProducts = useMemo((): FormattedProduct[] => {
+    let result = [...products];
+    
+    // Apply price filter
+    const filter = PRICE_FILTERS.find(f => f.id === priceFilter);
+    if (filter && filter.id !== 'all') {
+      result = result.filter(p => {
+        const price = p.numericPrice || parseFloat(String(p.price || '').replace(/[^\d.]/g, '')) || 0;
+        return price >= filter.min && price < filter.max;
+      });
+    }
+    
+    // Apply sorting
+    switch (sortBy) {
+      case 'price_low':
+        result.sort((a, b) => (a.numericPrice || 0) - (b.numericPrice || 0));
+        break;
+      case 'price_high':
+        result.sort((a, b) => (b.numericPrice || 0) - (a.numericPrice || 0));
+        break;
+      case 'name_asc':
+        result.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+        break;
+      case 'name_desc':
+        result.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
+        break;
+      default:
+        break;
+    }
+    
+    return result;
+  }, [products, sortBy, priceFilter]);
+
+  const renderModal = (
+    visible: boolean, 
+    setVisible: (value: boolean) => void, 
+    title: string, 
+    options: Array<{ id: string; label: string }>, 
+    selectedId: string, 
+    onSelect: (id: string) => void
+  ): React.ReactElement => (
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      onRequestClose={() => setVisible(false)}
+    >
+      <TouchableOpacity 
+        style={styles.modalOverlay} 
+        activeOpacity={1} 
+        onPress={() => setVisible(false)}
+      >
+        <View style={styles.modalContent}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>{title}</Text>
+            <TouchableOpacity onPress={() => setVisible(false)}>
+              <Ionicons name="close" size={24} color={Colors.textPrimary} />
+            </TouchableOpacity>
+          </View>
+          {options.map(option => (
+            <TouchableOpacity
+              key={option.id}
+              style={[
+                styles.modalOption,
+                selectedId === option.id && styles.modalOptionSelected
+              ]}
+              onPress={() => {
+                onSelect(option.id);
+                setVisible(false);
+              }}
+            >
+              <Text style={[
+                styles.modalOptionText,
+                selectedId === option.id && styles.modalOptionTextSelected
+              ]}>
+                {option.label}
+              </Text>
+              {selectedId === option.id && (
+                <Ionicons name="checkmark" size={20} color={Colors.primary} />
+              )}
+            </TouchableOpacity>
+          ))}
+        </View>
+      </TouchableOpacity>
+    </Modal>
+  );
+
+  return (
+    <CustomHeader navigation={navigation} title={category}>
+      <View style={styles.filterBar}>
+        <TouchableOpacity 
+          style={styles.filterButton} 
+          onPress={() => setShowFilterModal(true)}
+        >
+          <Ionicons name="filter" size={18} color={Colors.textPrimary} />
+          <Text style={styles.filterButtonText}>Filter</Text>
+          {priceFilter !== 'all' && <View style={styles.activeIndicator} />}
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.filterButton} 
+          onPress={() => setShowSortModal(true)}
+        >
+          <Ionicons name="swap-vertical" size={18} color={Colors.textPrimary} />
+          <Text style={styles.filterButtonText}>Sort</Text>
+          {sortBy !== 'default' && <View style={styles.activeIndicator} />}
+        </TouchableOpacity>
+        
+        <Text style={styles.productCount}>
+          {filteredAndSortedProducts.length} Products
+        </Text>
+      </View>
+      
+      <TwoColSlide navigation={navigation} data={filteredAndSortedProducts} />
+      
+      {renderModal(showSortModal, setShowSortModal, 'Sort By', SORT_OPTIONS, sortBy, setSortBy)}
+      {renderModal(showFilterModal, setShowFilterModal, 'Filter by Price', PRICE_FILTERS, priceFilter, setPriceFilter)}
+    </CustomHeader>
+  );
+};
+
+export default CategoryProducts;
+
+const styles = StyleSheet.create({
+  filterBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    backgroundColor: Colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  filterButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: Colors.backgroundLight,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  filterButtonText: {
+    marginLeft: 5,
+    fontSize: 14,
+    color: Colors.textPrimary,
+  },
+  activeIndicator: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: Colors.primary,
+    marginLeft: 5,
+  },
+  productCount: {
+    marginLeft: 'auto',
+    fontSize: 14,
+    color: Colors.textMuted,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: Colors.surface,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingBottom: 30,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.textPrimary,
+  },
+  modalOption: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  modalOptionSelected: {
+    backgroundColor: Colors.backgroundLight,
+  },
+  modalOptionText: {
+    fontSize: 16,
+    color: Colors.textPrimary,
+  },
+  modalOptionTextSelected: {
+    fontWeight: 'bold',
+    color: Colors.primary,
+  },
+});

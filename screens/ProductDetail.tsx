@@ -1,0 +1,272 @@
+import React, { useEffect } from "react";
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity
+} from "react-native";
+import { Ionicons } from '@expo/vector-icons';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
+import { Col, Grid } from "react-native-easy-grid";
+import { AirbnbRating } from "react-native-ratings";
+
+import ImageSwiper from "../components/sliders/ImageSwiper";
+import TwoColProducts from "../components/sliders/TwoColSlide";
+import CustomHeader from "../components/header/CustomHeader";
+import EmptyListView from "../components/EmptyListView";
+import Colors from "../constants/Colors";
+import { useCart, useWishlist, useAppData } from "../store";
+import { Product } from "../types";
+import { HomeStackParamList } from "../types/navigation";
+
+interface ProductDetailProps {
+  navigation?: NavigationProp<HomeStackParamList>;
+  route?: RouteProp<HomeStackParamList, 'ProductDetail'>;
+}
+
+const ProductDetail: React.FC<ProductDetailProps> = ({
+  navigation,
+  route,
+}) => {
+  const { similarProducts: twoTvProducts, fetchSimilarProducts } = useAppData();
+  const { addToCart } = useCart();
+  const { wishlist: wishlistItems, addToWishlist } = useWishlist();
+
+  const product: Product = route?.params?.product || {} as Product;
+  const productId = product?._id || (product as any)?.id;
+  const categoryObj = product?.category as any;
+  const categoryName = categoryObj?.name || (product as any)?.categories?.[0] || product?.category || '';
+
+  useEffect(() => {
+    if (categoryName && productId) {
+      fetchSimilarProducts({ categoryName, excludeProductId: productId });
+    }
+  }, [categoryName, productId]);
+
+  // Guard against missing product data
+  if (!product || !productId) {
+    return (
+      <CustomHeader navigation={navigation}>
+        <EmptyListView 
+          icon="search-outline" 
+          title="Product not found" 
+          message="The product you're looking for doesn't exist or has been removed"
+          primaryButtonText="Browse Products"
+          primaryButtonRoute="HomeStack"
+          secondaryButtonText="Go Back"
+        />
+      </CustomHeader>
+    );
+  }
+
+  const isInWishlist = wishlistItems?.some(item => (item.id || item._id) === productId);
+
+  return (
+    <CustomHeader navigation={navigation}>
+      <ScrollView
+        showsVerticalScrollIndicator
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <View
+          style={{
+            flex: 0.3,
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <ImageSwiper images={product.images || []} product={product} />
+        </View>
+        <View
+          style={{
+            flex: 0.2,
+            alignItems: "center",
+            justifyContent: "center",
+            borderTopColor: Colors.borderDark,
+            borderTopWidth: 0.5
+          }}
+        >
+            <Grid style={{ paddingTop: 5, marginTop: 5 }}>
+              <Col
+                style={{
+                  alignItems: "flex-start",
+                  paddingLeft: 5,
+                  marginLeft: 5
+                }}
+              >
+                <AirbnbRating
+                  showRating={false}
+                  count={5}
+                  defaultRating={2}
+                  size={24}
+                />
+              </Col>
+              <Col
+                style={{
+                  alignItems: "flex-end",
+                  paddingRight: 10,
+                  marginRight: 10
+                }}
+              >
+                <TouchableOpacity 
+                  style={styles.wishlistButton}
+                  onPress={() => addToWishlist(product)}
+                >
+                  <Ionicons 
+                    name={isInWishlist ? "heart" : "heart-outline"}
+                    size={26} 
+                    color={isInWishlist ? Colors.error : Colors.iconDefault}
+                  />
+                </TouchableOpacity>
+              </Col>
+            </Grid>
+            <Grid style={{ paddingTop: 0, marginTop: 0 }}>
+              <Col
+                style={{
+                  alignItems: "flex-start",
+                  paddingLeft: 10,
+                  marginLeft: 10
+                }}
+              >
+                <Text style={styles.cardText}>
+                  {product.title}
+                </Text>
+                <Text style={{ fontSize: 12 }}>
+                  {categoryObj?.name || (product as any)?.categories?.[0] || ''}
+                </Text>
+                <Text style={styles.cardText}>
+                  {" "}
+                  ${product.price}
+                </Text>
+              </Col>
+              <Col
+                style={{
+                  alignItems: "flex-end",
+                  justifyContent: "center",
+                  paddingRight: 10,
+                  marginRight: 10
+                }}
+              >
+                <TouchableOpacity
+                  style={StyleSheet.flatten(styles.button)}
+                  onPress={() => {
+                    addToCart({ ...product, quantity: 1 } as any);
+                    (navigation as any).navigate("Main", { screen: "CartStack", params: { screen: "Cart" } });
+                  }}
+                >
+                  <Text style={{ fontSize: 10, color: Colors.textWhite }}>Add to Cart</Text>
+                </TouchableOpacity>
+              </Col>
+            </Grid>
+          </View>
+          <View
+            style={{
+              flex: 0.1,
+              alignItems: "flex-start",
+              paddingLeft: 10,
+              marginLeft: 10
+            }}
+          >
+            <Text style={styles.textStyle}>Size</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <View style={styles.sizeCol}>
+                <Text style={styles.sizeText}>52M</Text>
+              </View>
+              <View style={[styles.sizeCol, { marginLeft: 5 }]}>
+                <Text style={styles.sizeText}>54M</Text>
+              </View>
+              <View style={[styles.sizeCol, { marginLeft: 5 }]}>
+                <Text style={styles.sizeText}>55M</Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              flex: 0.2,
+              alignItems: "flex-start",
+              paddingLeft: 10,
+              marginLeft: 10
+            }}
+          >
+            <Text style={styles.textStyle}>Specification</Text>
+            <Text style={{ fontSize: 12, paddingTop: 5 }}>
+              CR39 Warm green lenses with blue anti-effective coating on the
+              inside. 100% UVA/UVB protective lenses.
+            </Text>
+            <Text style={{ fontSize: 12 }}>
+              Packaging: Packaged in a collapsible natural cork box with red
+              cleaning cloth.
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 0.1,
+              alignItems: "flex-start",
+              borderTopColor: Colors.borderDark,
+              borderTopWidth: 0.5,
+              paddingTop: 10,
+              marginTop: 10,
+              paddingLeft: 10,
+              marginLeft: 10
+            }}
+          >
+            <Text style={styles.cardText}>You may also like</Text>
+          </View>
+          <View style={{ flex: 0.3 }}>
+            <TwoColProducts data={twoTvProducts} />
+          </View>
+        </ScrollView>
+    </CustomHeader>
+  );
+};
+
+export default ProductDetail;
+
+const styles = StyleSheet.create({
+  textStyle: {
+    fontSize: 12,
+    fontWeight: "bold",
+    fontFamily: "Roboto"
+  },
+  cardText: {
+    fontSize: 17,
+    fontWeight: "bold",
+    fontFamily: "Roboto"
+  },
+  button: {
+    width: 120,
+    borderRadius: 5,
+    alignSelf: "flex-end",
+    backgroundColor: Colors.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  sizeText: {
+    fontSize: 10,
+    textAlign: "center"
+  },
+  sizeCol: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 5,
+    width: 34,
+    height: 34,
+    borderRadius: 34 / 2,
+    borderColor: Colors.borderDark,
+    borderWidth: 0.5
+  },
+  wishlistButton: {
+    padding: 8,
+    backgroundColor: Colors.backgroundGray,
+    borderRadius: 20,
+  }
+});

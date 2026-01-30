@@ -1,0 +1,56 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["es2017"],
+    "jsx": "react-native",
+    
+    /* Types - exclude jest until tests are converted */
+    "types": ["react-native", "node"],
+    
+    /* Strict Type-Checking - start lenient, tighten later */
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    
+    /* Module Resolution */
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    
+    /* Path Aliases (optional, for cleaner imports) */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@components/*": ["components/*"],
+      "@screens/*": ["screens/*"],
+      "@store/*": ["store/*"],
+      "@constants/*": ["constants/*"],
+      "@services/*": ["services/*"]
+    },
+    
+    /* Skip type checking of node_modules */
+    "skipLibCheck": true,
+    
+    /* Allow JS files during migration */
+    "allowJs": true,
+    "checkJs": false
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
+    "studio",
+    "api",
+    "vercel-api",
+    "__tests__"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ]
+}
