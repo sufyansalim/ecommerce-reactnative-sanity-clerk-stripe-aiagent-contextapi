@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { 
   addToCart, 
-  removeFromCart, 
-  updateQuantity, 
+  deleteFromCart as removeFromCart, 
+  updateCartQuantity as updateQuantity, 
   clearCart,
   selectCart,
-  selectCartCount,
+  selectCartItemCount as selectCartCount,
   selectCartTotal 
 } from './slices/cartSlice';
 import { 
@@ -94,7 +94,7 @@ export const useAppData = () => {
     fetchBrands: () => dispatch(fetchBrands()),
     fetchCelebrities: () => dispatch(fetchCelebrities()),
     fetchTvShows: () => dispatch(fetchTvShows()),
-    fetchSimilarProducts: (categoryId) => dispatch(fetchSimilarProducts(categoryId)),
+    fetchSimilarProducts: ({ categoryName, excludeProductId }) => dispatch(fetchSimilarProducts({ categoryName, excludeProductId })),
     clearSimilarProducts: () => dispatch(clearSimilarProducts())
   };
 };

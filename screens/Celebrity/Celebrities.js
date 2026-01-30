@@ -12,10 +12,8 @@ const Celebrities = ({ navigation }) => {
   const { celebrities, celebritiesLoading: loading, fetchCelebrities } = useAppData();
 
   useEffect(() => {
-    console.log("Render!");
     fetchCelebrities();
     return () => {
-      console.log("Cleanup!");
     };
   }, []);
 

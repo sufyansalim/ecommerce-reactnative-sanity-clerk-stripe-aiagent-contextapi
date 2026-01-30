@@ -16,7 +16,7 @@ import CustomHeader from "../../components/header/CustomHeader.js";
 import Surface from "../../components/Surface";
 import EmptyListView from "../../components/EmptyListView";
 import Colors from "../../constants/Colors";
-import { useAuth } from "../../context";
+import { useAuth } from "../../store";
 import { sanityClient } from "../../constants/SanityClient";
 import { GET_ORDERS_BY_USER } from "../../constants/SanityQueries";
 

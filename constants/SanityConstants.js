@@ -99,6 +99,6 @@ export const SANITY_CONFIG = {
 // ═══════════════════════════════════════════════════════════════════════
 export const DEFAULTS = {
   PRODUCTS_PER_PAGE: 12,
-  CURRENCY: 'QAR',
+  CURRENCY: 'USD',
   SORT: SORT_OPTIONS.NEWEST,
 };

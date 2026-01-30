@@ -34,7 +34,7 @@ const ShopTheLookScreen = ({ navigation, route }) => {
                     _id: product._id,
                     id: product._id,
                     title: product.title,
-                    price: `${product.price} QAR`,
+                    price: product.price,
                     numericPrice: product.price,
                     uri: product.image,
                     image: product.image,

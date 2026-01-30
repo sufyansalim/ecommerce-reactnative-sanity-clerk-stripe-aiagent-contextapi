@@ -32,11 +32,11 @@ const AboutUsScreen = ({ navigation }) => {
     );
 
     const handleEmail = () => {
-        Linking.openURL('mailto:info@dokkani.co');
+        Linking.openURL('mailto:info@luxebeauty.com');
     };
 
     const handleWebsite = () => {
-        Linking.openURL('https://dokkani.co');
+        Linking.openURL('https://luxebeauty.com');
     };
 
     const handleSendMessage = () => {
@@ -55,7 +55,7 @@ const AboutUsScreen = ({ navigation }) => {
             >
                 {/* Header Section */}
                 <View style={styles.headerSection}>
-                    <Text style={styles.brandName}>Dokkani</Text>
+                    <Text style={styles.brandName}>Luxe</Text>
                     <View style={styles.versionBadge}>
                         <Text style={styles.versionText}>Version 1.0.0</Text>
                     </View>
@@ -67,13 +67,13 @@ const AboutUsScreen = ({ navigation }) => {
                         <View style={styles.contactColumn}>
                             <Text style={styles.contactLabel}>Email</Text>
                             <TouchableOpacity onPress={handleEmail}>
-                                <Text style={styles.contactLink}>info@dokkani.co</Text>
+                                <Text style={styles.contactLink}>info@luxebeauty.com</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.contactColumnRight}>
                             <Text style={styles.contactLabel}>Homepage</Text>
                             <TouchableOpacity onPress={handleWebsite}>
-                                <Text style={styles.contactLink}>dokkani.co</Text>
+                                <Text style={styles.contactLink}>luxebeauty.com</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -111,31 +111,31 @@ const AboutUsScreen = ({ navigation }) => {
 
                 {/* About Section */}
                 <Surface elevation={2}>
-                    <Text style={styles.cardTitle}>About Dokkani</Text>
+                    <Text style={styles.cardTitle}>About Luxe</Text>
                     <Text style={styles.aboutText}>
-                        Middle East's Favourite Online Beauty Destination for Cosmetics, Skin care & Perfumes.
+                        America's Premier Online Beauty Destination for Cosmetics, Skincare & Perfumes.
                     </Text>
                     <Text style={styles.aboutText}>
-                        Dokkani is a virtual makeup showroom featuring a hand-curated mix of beauty and
+                        Luxe is a virtual beauty showroom featuring a hand-curated mix of beauty and
                         fashion products from 700+ International brands, local and exclusive in-house brands,
-                        where customers can discover personal recommendations from Middle East's most loved
-                        celebrities and shop their selected on-the-go.
+                        where customers can discover personal recommendations from America's most loved
+                        celebrities and shop their selections on-the-go.
                     </Text>
                     <Text style={styles.aboutText}>
-                        Envisaged in 2019 by a young Qatari entrepreneur, Dokkani distinguishes from its peer e-commerce
-                        platforms with the incorporation of a social element: it features Gulf and Arab celebrities and
+                        Founded in 2019, Luxe distinguishes itself from other e-commerce
+                        platforms with the incorporation of a social element: it features celebrities and
                         social media influencers who recommend products, allowing consumers to shop directly from
-                        these influencers' virtual stores inside Dokkani.
+                        these influencers' virtual stores inside Luxe.
                     </Text>
                 </Surface>
 
                 {/* Address Section */}
                 <Surface elevation={2} style={styles.lastCard}>
                     <Text style={styles.cardTitle}>Visit Us</Text>
-                    <Text style={styles.addressText}>Abc Tower Doha</Text>
-                    <Text style={styles.addressText}>State of Qatar</Text>
-                    <Text style={styles.addressText}>P.O Box: 47663</Text>
-                    <Text style={[styles.addressText, styles.phoneText]}>+974 4423 8967</Text>
+                    <Text style={styles.addressText}>350 Fifth Avenue, Suite 4500</Text>
+                    <Text style={styles.addressText}>New York, NY 10118</Text>
+                    <Text style={styles.addressText}>United States</Text>
+                    <Text style={[styles.addressText, styles.phoneText]}>+1 (212) 736-5000</Text>
                 </Surface>
             </ScrollView>
 

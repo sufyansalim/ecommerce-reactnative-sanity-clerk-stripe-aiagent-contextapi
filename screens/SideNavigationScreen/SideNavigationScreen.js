@@ -12,7 +12,7 @@ import Separator from "../../components/Separator";
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import { useAuth } from '../../context';
+import { useAuth } from '../../store';
 
 
 const SideNavigationScreen = props => {

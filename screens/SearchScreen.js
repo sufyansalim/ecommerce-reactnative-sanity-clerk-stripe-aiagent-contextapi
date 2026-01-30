@@ -113,7 +113,7 @@ const SearchScreen = props => {
           {item.category?.name} {item.brand?.name ? `• ${item.brand.name}` : ''}
         </Text>
         <View style={styles.productFooter}>
-          <Text style={styles.productPrice}>{item.price} QAR</Text>
+          <Text style={styles.productPrice}>${item.price}</Text>
           {item.inStock ? (
             <View style={styles.stockBadge}>
               <Text style={styles.stockText}>In Stock</Text>
@@ -254,7 +254,7 @@ const SearchScreen = props => {
                         {item.category?.name} {item.brand?.name ? `• ${item.brand.name}` : ''}
                       </Text>
                       <View style={styles.productFooter}>
-                        <Text style={styles.productPrice}>{item.price} QAR</Text>
+                        <Text style={styles.productPrice}>${item.price}</Text>
                         {item.inStock ? (
                           <View style={styles.stockBadge}>
                             <Text style={styles.stockText}>In Stock</Text>

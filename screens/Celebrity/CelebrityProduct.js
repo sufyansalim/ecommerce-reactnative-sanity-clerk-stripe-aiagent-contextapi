@@ -18,7 +18,6 @@ import { Col, Grid, Row } from "react-native-easy-grid";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 
-import { useAppState, useAppDispatch, setCelebrityProducts } from "../../store";
 import { SORT_LIST, CATEGORY_LIST } from '../../constants/SanityConstants';
 import {
   widthPercentageToDP as wp,
@@ -42,8 +41,8 @@ const CelebrityProduct = ({
   const banner = route.params?.banner || "NO-Banner";
   const products = route.params?.products || [];
 
-  const { celebrityProducts, productsLoading: loading } = useAppState();
-  const dispatch = useAppDispatch();
+  const [celebrityProducts, setCelebrityProducts] = useState(products);
+  const [loading, setLoading] = useState(false);
 
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -51,9 +50,7 @@ const CelebrityProduct = ({
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
-    console.log("Celebrity products from params:", products);
-    // Pass the products array directly (already fetched with celebrity data)
-    dispatch(setCelebrityProducts(products));
+    setCelebrityProducts(products);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

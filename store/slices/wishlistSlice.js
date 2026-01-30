@@ -53,11 +53,11 @@ export const {
   setWishlistError 
 } = wishlistSlice.actions;
 
-export const selectWishlist = (state) => state.wishlist.wishlist;
-export const selectWishlistLoading = (state) => state.wishlist.loading;
-export const selectWishlistError = (state) => state.wishlist.error;
-export const selectWishlistCount = (state) => state.wishlist.wishlist.length;
+export const selectWishlist = (state) => state.wishlist?.wishlist || [];
+export const selectWishlistLoading = (state) => state.wishlist?.loading || false;
+export const selectWishlistError = (state) => state.wishlist?.error || null;
+export const selectWishlistCount = (state) => state.wishlist?.wishlist?.length || 0;
 export const selectIsInWishlist = (productId) => (state) => 
-  state.wishlist.wishlist.some(item => (item.id || item._id) === productId);
+  (state.wishlist?.wishlist || []).some(item => (item.id || item._id) === productId);
 
 export default wishlistSlice.reducer;

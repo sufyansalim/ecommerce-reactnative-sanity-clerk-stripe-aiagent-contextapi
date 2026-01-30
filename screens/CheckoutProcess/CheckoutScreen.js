@@ -60,7 +60,7 @@ const CheckoutScreen = ({ navigation }) => {
 
     const subscription = Linking.addEventListener('url', handleDeepLink);
     return () => subscription.remove();
-  }, [dispatch, navigation]);
+  }, [clearCart, navigation]);
 
   // Redirect to login if not signed in
   useEffect(() => {

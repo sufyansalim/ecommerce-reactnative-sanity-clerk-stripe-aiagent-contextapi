@@ -80,7 +80,7 @@ const CartCard = (props) => {
             <View style={{ flex: 0.5, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', }}>
               <Text style={[styles.cardText, { paddingRight: 5, marginRight: 5 }]}>{slide.title}</Text>
               <Text style={{ fontSize: 10, paddingLeft: 15, marginLeft: 15 }}>{(slide.description || '').replace(/(<([^>]+)>)/ig, '')}</Text>
-              <Text style={styles.cardText}>{slide.price}</Text>
+              <Text style={styles.cardText}>${slide.price}</Text>
               
               {/* Quantity Controls */}
               <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginTop: 8, paddingLeft: 15 }}>

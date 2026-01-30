@@ -19,10 +19,8 @@ const Brands = ({ navigation }) => {
   const { brands, brandsLoading: loading, fetchBrands } = useAppData();
 
   useEffect(() => {
-    console.log("Render!");
     fetchBrands();
     return () => {
-      console.log("Cleanup!");
     };
   }, []);
 

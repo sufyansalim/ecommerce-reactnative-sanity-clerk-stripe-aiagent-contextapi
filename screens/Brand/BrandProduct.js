@@ -17,7 +17,6 @@ import CustomHeader from "../../components/header/CustomHeader.js";
 import Surface from "../../components/Surface";
 import { Col, Grid, Row } from "react-native-easy-grid";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { useAppState, useAppDispatch, setBrandProducts } from '../../store';
 import { SORT_LIST, CATEGORY_LIST } from '../../constants/SanityConstants';
 import Colors from '../../constants/Colors';
 
@@ -35,8 +34,8 @@ const BrandProduct = ({ navigation, route }) => {
   const banner = route.params?.banner || "NO-Banner";
   const products = route.params?.products || [];
   
-  const { brandProducts, productsLoading: loading } = useAppState();
-  const dispatch = useAppDispatch();
+  const [brandProducts, setBrandProducts] = useState(products);
+  const [loading, setLoading] = useState(false);
   
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -44,9 +43,7 @@ const BrandProduct = ({ navigation, route }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
-    console.log("Brand products from params:", products);
-    // Pass the products array directly (already fetched with brand data)
-    dispatch(setBrandProducts(products));
+    setBrandProducts(products);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

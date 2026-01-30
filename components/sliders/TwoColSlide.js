@@ -124,7 +124,7 @@ const TwoColSlide = ({ data, buttonText, style, navigation: navProp, home }) => 
                       fontWeight: "bold",
                       alignSelf: "flex-start"
                     }}>
-                    &#x631;&#x642; {product.price || ''}
+                    ${product.price || ''}
                   </Text>
                 )}
               </View>

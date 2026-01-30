@@ -8,6 +8,11 @@ yarn-error.log*
 # Environment variables (secrets backup only)
 secrets-backup.env
 restore-secrets.sh
+temp-restore.txt
+backup-secrets.sh
+secure-env.sh
+api/.env
+vercel-api/.env.local
 
 # Note: .env files are tracked as templates with placeholder values
 # Real secrets should be added locally and never committed
@@ -69,3 +74,6 @@ temp/
 # Security scripts (keep local only)
 secure-env.sh
 backup-secrets.sh
+.env
+.env.local
+*.env.local

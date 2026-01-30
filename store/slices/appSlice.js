@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import client from '../../constants/SanityClient';
+import { sanityClient } from '../../constants/SanityClient';
 
 // Async Thunks
 export const fetchBrands = createAsyncThunk(
@@ -9,9 +9,19 @@ export const fetchBrands = createAsyncThunk(
       const query = `*[_type == "brand"]{
         _id,
         name,
-        "image": image.asset->url
+        "uri": image,
+        banner,
+        "products": *[_type == "product" && brand._ref == ^._id]{
+          _id,
+          title,
+          "productImage": image,
+          "images": images,
+          price,
+          description,
+          "category": category->name
+        }
       }`;
-      const brands = await client.fetch(query);
+      const brands = await sanityClient.fetch(query);
       return brands;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -26,9 +36,19 @@ export const fetchCelebrities = createAsyncThunk(
       const query = `*[_type == "celebrity"]{
         _id,
         name,
-        "image": image.asset->url
+        "uri": image,
+        banner,
+        "products": products[]->{
+          _id,
+          title,
+          "productImage": image,
+          "images": images,
+          price,
+          description,
+          "category": category->name
+        }
       }`;
-      const celebrities = await client.fetch(query);
+      const celebrities = await sanityClient.fetch(query);
       return celebrities;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -43,9 +63,19 @@ export const fetchTvShows = createAsyncThunk(
       const query = `*[_type == "tvShow"]{
         _id,
         name,
-        "image": image.asset->url
+        "uri": image,
+        videoUrl,
+        "products": products[]->{
+          _id,
+          title,
+          "productImage": image,
+          "images": images,
+          price,
+          description,
+          "category": category->name
+        }
       }`;
-      const tvShows = await client.fetch(query);
+      const tvShows = await sanityClient.fetch(query);
       return tvShows;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -55,17 +85,22 @@ export const fetchTvShows = createAsyncThunk(
 
 export const fetchSimilarProducts = createAsyncThunk(
   'app/fetchSimilarProducts',
-  async (categoryId, { rejectWithValue }) => {
+  async ({ categoryName, excludeProductId }, { rejectWithValue }) => {
     try {
-      const query = `*[_type == "product" && category._ref == $categoryId][0...10]{
+      // Get products in the same category, excluding the current product
+      const query = `*[_type == "product" && category->name match $categoryName && _id != $excludeProductId][0...4]{
         _id,
-        name,
+        title,
         price,
-        "image": image.asset->url,
+        "productImage": image,
         description,
-        category
+        "category": category->name,
+        "images": images
       }`;
-      const products = await client.fetch(query, { categoryId });
+      const products = await sanityClient.fetch(query, { 
+        categoryName: categoryName + "*",
+        excludeProductId: excludeProductId || ""
+      });
       return products;
     } catch (error) {
       return rejectWithValue(error.message);

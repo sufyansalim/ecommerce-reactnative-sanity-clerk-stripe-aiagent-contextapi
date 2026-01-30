@@ -30,11 +30,11 @@ const ProductDetail = ({
 
   const product = route.params?.product || {};
   const productId = product?._id || product?.id;
-  const categoryName = product?.category?.name || product?.categories?.[0] || '';
+  const categoryName = product?.category?.name || product?.categories?.[0] || product?.category || '';
 
   useEffect(() => {
-    if (categoryName || productId) {
-      fetchSimilarProducts(categoryName);
+    if (categoryName && productId) {
+      fetchSimilarProducts({ categoryName, excludeProductId: productId });
     }
   }, [categoryName, productId]);
 
@@ -128,7 +128,7 @@ const ProductDetail = ({
                 </Text>
                 <Text style={styles.cardText}>
                   {" "}
-                  &#x631;&#x642; {product.price}
+                  ${product.price}
                 </Text>
               </Col>
               <Col

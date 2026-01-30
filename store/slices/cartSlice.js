@@ -53,8 +53,12 @@ const cartSlice = createSlice({
     },
     
     updateCartQuantity: (state, action) => {
-      const { index, quantity } = action.payload;
-      if (state.cart[index]) {
+      const { productId, quantity } = action.payload;
+      const index = state.cart.findIndex(item => {
+        const itemId = item._id || item.id || item.productId;
+        return itemId === productId;
+      });
+      if (index >= 0) {
         if (quantity <= 0) {
           state.cart.splice(index, 1);
         } else {
@@ -64,7 +68,11 @@ const cartSlice = createSlice({
     },
     
     deleteFromCart: (state, action) => {
-      state.cart.splice(action.payload, 1);
+      const productId = action.payload;
+      state.cart = state.cart.filter(item => {
+        const itemId = item._id || item.id || item.productId;
+        return itemId !== productId;
+      });
     },
     
     clearCart: (state) => {
@@ -91,15 +99,15 @@ export const {
   setCartError 
 } = cartSlice.actions;
 
-export const selectCart = (state) => state.cart.cart;
-export const selectCartLoading = (state) => state.cart.loading;
-export const selectCartError = (state) => state.cart.error;
+export const selectCart = (state) => state.cart?.cart || [];
+export const selectCartLoading = (state) => state.cart?.loading || false;
+export const selectCartError = (state) => state.cart?.error || null;
 export const selectCartTotal = (state) => 
-  state.cart.cart.reduce((total, item) => {
+  (state.cart?.cart || []).reduce((total, item) => {
     const price = item.numericPrice || parseFloat(item.price) || 0;
     return total + (price * (item.quantity || 1));
   }, 0);
 export const selectCartItemCount = (state) => 
-  state.cart.cart.reduce((count, item) => count + (item.quantity || 1), 0);
+  (state.cart?.cart || []).reduce((count, item) => count + (item.quantity || 1), 0);
 
 export default cartSlice.reducer;

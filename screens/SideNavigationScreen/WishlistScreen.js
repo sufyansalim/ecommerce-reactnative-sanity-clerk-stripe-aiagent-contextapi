@@ -105,7 +105,7 @@ const WishlistScreen = ({ navigation: propsNavigation }) => {
                                     {item.categories?.[0] || 'Product'}
                                 </Text>
                                 <Text style={styles.itemPrice}>
-                                    {item.price}
+                                    ${item.price}
                                 </Text>
                             </View>
                             <TouchableOpacity 

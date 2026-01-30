@@ -84,7 +84,6 @@ const Cart = ({navigation}) => {
             <View style={{flex:0.8}}>
                   <CartCard navigation={navigation} data={cart} delete={(productId)=>{
                     removeFromCart(productId);
-                    console.log("removed product", productId)
                     }}/>
               </View>
             <View>
