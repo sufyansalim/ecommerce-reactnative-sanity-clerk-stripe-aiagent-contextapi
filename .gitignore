@@ -65,3 +65,7 @@ temp/
 .eslintcache
 .cache
 .parcel-cache
+
+# Security scripts (keep local only)
+secure-env.sh
+backup-secrets.sh

@@ -18,7 +18,7 @@ import { Col, Grid, Row } from "react-native-easy-grid";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 
-import { useAppState, useAppDispatch, setCelebrityProducts } from "../../context";
+import { useAppState, useAppDispatch, setCelebrityProducts } from "../../store";
 import { SORT_LIST, CATEGORY_LIST } from '../../constants/SanityConstants';
 import {
   widthPercentageToDP as wp,
@@ -53,7 +53,7 @@ const CelebrityProduct = ({
   useEffect(() => {
     console.log("Celebrity products from params:", products);
     // Pass the products array directly (already fetched with celebrity data)
-    setCelebrityProducts(dispatch, products);
+    dispatch(setCelebrityProducts(products));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -9,7 +9,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { useWishlistState } from '../../context';
+import { useWishlist } from '../../store';
 import Colors from '../../constants/Colors';
 
 export default function CustomHeader({ navigation: navProp, children }) {
@@ -18,7 +18,7 @@ export default function CustomHeader({ navigation: navProp, children }) {
   const { navigate, goBack } = navigation;
   const route = useRoute();
   const isSideNavigation = route?.name === 'SideNavigation';
-  const { wishlist } = useWishlistState();
+  const { wishlist } = useWishlist();
   const hasWishlistItems = wishlist.length > 0;
   
   const handleMenuPress = () => {

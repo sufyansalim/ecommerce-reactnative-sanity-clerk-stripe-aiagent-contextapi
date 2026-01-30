@@ -15,7 +15,7 @@ import TwoColProducts from '../../../components/sliders/TwoColSlide.js';
 import CustomHeader from '../../../components/header/CustomHeader.js';
 import { Ionicons } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview';
-import { useAppState, useAppDispatch, setTvProducts } from '../../../context';
+import { useAppState, useAppDispatch, setTvProducts } from '../../../store';
 import Colors from '../../../constants/Colors';
 
 const TVProducts=({ navigation, route })=> {
@@ -30,7 +30,7 @@ const TVProducts=({ navigation, route })=> {
   useEffect(() => {
     console.log("TV Products from params:", products);
     // Pass the products array directly (already fetched with TV show data)
-    setTvProducts(dispatch, products);
+    dispatch(setTvProducts(products));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

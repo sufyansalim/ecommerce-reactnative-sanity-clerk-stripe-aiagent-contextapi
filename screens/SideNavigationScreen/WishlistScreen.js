@@ -13,13 +13,12 @@ import { Ionicons } from '@expo/vector-icons';
 import CustomHeader from "../../components/header/CustomHeader";
 import ConfirmModal from "../../components/ConfirmModal";
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { useWishlistState, useWishlistDispatch, removeFromWishlist } from '../../context';
+import { useWishlist } from '../../store';
 import Colors from '../../constants/Colors';
 
 const WishlistScreen = ({ navigation: propsNavigation }) => {
     const navigation = useNavigation();
-    const { wishlist } = useWishlistState();
-    const dispatch = useWishlistDispatch();
+    const { wishlist, removeFromWishlist } = useWishlist();
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
@@ -41,7 +40,7 @@ const WishlistScreen = ({ navigation: propsNavigation }) => {
 
     const confirmRemove = () => {
         if (selectedItem) {
-            removeFromWishlist(dispatch, selectedItem.id);
+            removeFromWishlist(selectedItem.id || selectedItem._id);
         }
         setModalVisible(false);
         setSelectedItem(null);

@@ -16,11 +16,10 @@ import EmptyListView from '../components/EmptyListView';
 import CartCard from '../components/sliders/CartCard';
 import CustomHeader from "../components/header/CustomHeader.js";
 import Colors from "../constants/Colors";
-import { useCartState, useCartDispatch, deleteFromCart, useAuth } from '../context';
+import { useCart, useAuth } from '../store';
 
 const Cart = ({navigation}) => {
-  const { cart, loading: loadingCart } = useCartState();
-  const dispatch = useCartDispatch();
+  const { cart, removeFromCart } = useCart();
   const { isSignedIn } = useAuth();
 
   const [loading, setLoading] = useState(true);
@@ -83,9 +82,9 @@ const Cart = ({navigation}) => {
           </View>
           {cart && cart.length > 0 ? (<>
             <View style={{flex:0.8}}>
-                  <CartCard navigation={navigation} data={cart} delete={(index)=>{
-                    deleteFromCart(dispatch, index);
-                    console.log("index",index)
+                  <CartCard navigation={navigation} data={cart} delete={(productId)=>{
+                    removeFromCart(productId);
+                    console.log("removed product", productId)
                     }}/>
               </View>
             <View>

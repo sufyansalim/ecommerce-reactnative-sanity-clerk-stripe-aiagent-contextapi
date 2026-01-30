@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView, Image, TouchableOpacity, Text } from "rea
 import { Col, Grid } from "react-native-easy-grid";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
-import { useWishlistState, useWishlistDispatch, addToWishlist, removeFromWishlist } from "../../context";
+import { useWishlist } from "../../store";
 import Colors from "../../constants/Colors";
 import InfoModal from "../InfoModal";
 import Surface from "../Surface";
@@ -13,8 +13,7 @@ const TwoColSlide = ({ data, buttonText, style, navigation: navProp, home }) => 
   const navHook = useNavigation();
   const navigation = navProp || navHook;
   
-  const { wishlist: wishlistItems } = useWishlistState();
-  const wishlistDispatch = useWishlistDispatch();
+  const { wishlist: wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
   
   const [modalVisible, setModalVisible] = useState(false);
   const [addedProduct, setAddedProduct] = useState(null);
@@ -32,13 +31,13 @@ const TwoColSlide = ({ data, buttonText, style, navigation: navProp, home }) => 
     if (isInWishlist(product)) {
       // Remove from wishlist
       const productId = product.id || product._id;
-      removeFromWishlist(wishlistDispatch, productId);
+      removeFromWishlist(productId);
       setAddedProduct(product);
       setModalAction('removed');
       setModalVisible(true);
     } else {
       // Add to wishlist
-      addToWishlist(wishlistDispatch, product);
+      addToWishlist(product);
       setAddedProduct(product);
       setModalAction('added');
       setModalVisible(true);

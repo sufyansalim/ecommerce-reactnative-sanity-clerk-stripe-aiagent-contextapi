@@ -6,19 +6,18 @@ import LoadingScreen from "../../components/LoadingScreen";
 import EmptyListView from "../../components/EmptyListView";
 import CustomHeader from "../../components/header/CustomHeader.js";
 import ThreecolSlide from "../../components/sliders/ThreecolSlide";
-import { useAppState, useAppDispatch, fetchCelebrities } from '../../context';
+import { useAppData } from '../../store';
 
 const Celebrities = ({ navigation }) => {
-  const { celebrities, celebritiesLoading: loading } = useAppState();
-  const dispatch = useAppDispatch();
+  const { celebrities, celebritiesLoading: loading, fetchCelebrities } = useAppData();
 
   useEffect(() => {
     console.log("Render!");
-    fetchCelebrities(dispatch);
+    fetchCelebrities();
     return () => {
       console.log("Cleanup!");
     };
-  }, [dispatch]);
+  }, []);
 
   return (
     <CustomHeader navigation={navigation}>

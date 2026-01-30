@@ -12,20 +12,19 @@ import LoadingScreen from "../../components/LoadingScreen";
 import EmptyListView from "../../components/EmptyListView";
 import CustomHeader from "../../components/header/CustomHeader.js";
 import ThreecolSlide from '../../components/sliders/ThreecolSlide';
-import { useAppState, useAppDispatch, fetchBrands } from '../../context';
+import { useAppData } from '../../store';
 
 
 const Brands = ({ navigation }) => {
-  const { brands, brandsLoading: loading } = useAppState();
-  const dispatch = useAppDispatch();
+  const { brands, brandsLoading: loading, fetchBrands } = useAppData();
 
   useEffect(() => {
     console.log("Render!");
-    fetchBrands(dispatch);
+    fetchBrands();
     return () => {
       console.log("Cleanup!");
     };
-  }, [dispatch]);
+  }, []);
 
   return (
     <CustomHeader navigation={navigation}>

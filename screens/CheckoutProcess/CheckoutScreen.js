@@ -15,12 +15,11 @@ import * as Linking from 'expo-linking';
 import CustomHeader from '../../components/header/CustomHeader';
 import Surface from '../../components/Surface';
 import Colors from '../../constants/Colors';
-import { useCartState, useCartDispatch, clearCart, useAuth } from '../../context';
+import { useCart, useAuth } from '../../store';
 import { createCheckoutSession } from '../../services/checkoutService';
 
 const CheckoutScreen = ({ navigation }) => {
-  const { cart } = useCartState();
-  const dispatch = useCartDispatch();
+  const { cart, clearCart } = useCart();
   const { user, isSignedIn } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
   const pendingSessionRef = useRef(null);
@@ -46,7 +45,7 @@ const CheckoutScreen = ({ navigation }) => {
       const url = event.url;
       if (url.includes('checkout/success') && pendingSessionRef.current) {
         // Payment succeeded - clear cart and navigate to thank you
-        clearCart(dispatch);
+        clearCart();
         navigation.replace('Thankyou', {
           sessionId: pendingSessionRef.current.sessionId,
           orderNumber: pendingSessionRef.current.orderNumber,

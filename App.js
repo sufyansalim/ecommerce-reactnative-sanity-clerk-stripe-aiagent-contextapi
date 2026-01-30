@@ -13,8 +13,9 @@ import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
 import * as SecureStore from 'expo-secure-store';
 import Colors from './constants/Colors';
 
-// Context Providers
-import { AppProvider, CartProvider, WishlistProvider, AuthProvider } from './context';
+// Redux Store
+import { Provider as ReduxProvider } from 'react-redux';
+import { store, AuthProvider } from './store';
 
 import AppNavigator from './navigation/AppNavigator';
 
@@ -76,15 +77,11 @@ export default function App(props) {
           <View style={styles.container} onLayout={onLayoutRootView}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             <NativeBaseProvider config={{ suppressColorAccessibilityWarning: true }}>
-              <AuthProvider>
-                <AppProvider>
-                  <CartProvider>
-                    <WishlistProvider>
-                      <AppNavigator />
-                    </WishlistProvider>
-                  </CartProvider>
-                </AppProvider>
-              </AuthProvider>
+              <ReduxProvider store={store}>
+                <AuthProvider>
+                  <AppNavigator />
+                </AuthProvider>
+              </ReduxProvider>
             </NativeBaseProvider>
           </View>
         </SafeAreaProvider>

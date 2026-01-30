@@ -6,11 +6,11 @@ import Colors from '../constants/Colors';
 import CustomHeader from '../components/header/CustomHeader';
 import EmptyListView from '../components/EmptyListView';
 import TwoColProducts from '../components/sliders/TwoColSlide';
-import { useWishlistState } from '../context';
+import { useWishlist } from '../store';
 
 const WishList = (props) => {
     const navigation = useNavigation();
-    const { wishlist } = useWishlistState();
+    const { wishlist } = useWishlist();
     
     // Transform wishlist items for display
     const wishlistData = (wishlist || []).map(item => ({

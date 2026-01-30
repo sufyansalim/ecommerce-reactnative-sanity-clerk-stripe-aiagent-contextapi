@@ -2,17 +2,15 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import { useWishlistState, useWishlistDispatch, useCartDispatch } from '../../context';
-import { addToWishlist, removeFromWishlist, updateCartQuantity } from '../../actions';
+import { useWishlist, useCart } from '../../store';
 import InfoModal from '../InfoModal';
 
 const CartCard = (props) => {
   const { data, navigation, status } = props;
   
   // Wishlist functionality
-  const { wishlist } = useWishlistState();
-  const wishlistDispatch = useWishlistDispatch();
-  const cartDispatch = useCartDispatch();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const { updateQuantity } = useCart();
   const [modalVisible, setModalVisible] = useState(false);
   const [addedProduct, setAddedProduct] = useState(null);
   const [modalAction, setModalAction] = useState(''); // 'added' or 'removed'
@@ -29,13 +27,13 @@ const CartCard = (props) => {
     if (isInWishlist(product)) {
       // Remove from wishlist
       const productId = product.id || product._id;
-      removeFromWishlist(wishlistDispatch, productId);
+      removeFromWishlist(productId);
       setAddedProduct(product);
       setModalAction('removed');
       setModalVisible(true);
     } else {
       // Add to wishlist
-      addToWishlist(wishlistDispatch, product);
+      addToWishlist(product);
       setAddedProduct(product);
       setModalAction('added');
       setModalVisible(true);
@@ -49,14 +47,18 @@ const CartCard = (props) => {
   };
   
   const handleQuantityIncrease = (index) => {
-    const currentQuantity = data[index].quantity || 1;
-    updateCartQuantity(cartDispatch, index, currentQuantity + 1);
+    const product = data[index];
+    const productId = product.id || product._id;
+    const currentQuantity = product.quantity || 1;
+    updateQuantity(productId, currentQuantity + 1);
   };
   
   const handleQuantityDecrease = (index) => {
-    const currentQuantity = data[index].quantity || 1;
+    const product = data[index];
+    const productId = product.id || product._id;
+    const currentQuantity = product.quantity || 1;
     if (currentQuantity > 1) {
-      updateCartQuantity(cartDispatch, index, currentQuantity - 1);
+      updateQuantity(productId, currentQuantity - 1);
     }
   };
   
@@ -116,7 +118,10 @@ const CartCard = (props) => {
             <View style={{ flex: 0.5, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
               <TouchableOpacity
                 style={styles.removeButton}
-                onPress={() => { props.delete(index) }}>
+                onPress={() => { 
+                  const productId = slide.id || slide._id;
+                  props.delete(productId); 
+                }}>
                 <Ionicons style={{ color: Colors.primary }} name='close' size={18} />
                 <Text style={{ color: Colors.primary, fontSize: 12, marginRight: 5 }}>Remove</Text>
               </TouchableOpacity>

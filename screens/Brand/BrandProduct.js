@@ -17,7 +17,7 @@ import CustomHeader from "../../components/header/CustomHeader.js";
 import Surface from "../../components/Surface";
 import { Col, Grid, Row } from "react-native-easy-grid";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { useAppState, useAppDispatch, setBrandProducts } from '../../context';
+import { useAppState, useAppDispatch, setBrandProducts } from '../../store';
 import { SORT_LIST, CATEGORY_LIST } from '../../constants/SanityConstants';
 import Colors from '../../constants/Colors';
 
@@ -46,7 +46,7 @@ const BrandProduct = ({ navigation, route }) => {
   useEffect(() => {
     console.log("Brand products from params:", products);
     // Pass the products array directly (already fetched with brand data)
-    setBrandProducts(dispatch, products);
+    dispatch(setBrandProducts(products));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

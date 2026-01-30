@@ -18,26 +18,15 @@ import EmptyListView from "../components/EmptyListView";
 import { Col, Grid } from "react-native-easy-grid";
 import Colors from "../constants/Colors";
 
-import { 
-  useAppState, 
-  useAppDispatch, 
-  fetchSimilarProducts,
-  useCartDispatch, 
-  addToCart,
-  useWishlistState,
-  useWishlistDispatch,
-  addToWishlist 
-} from "../context";
+import { useCart, useWishlist, useAppData } from "../store";
 
 const ProductDetail = ({
   navigation,
   route,
 }) => {
-  const { similarProducts: twoTvProducts } = useAppState();
-  const appDispatch = useAppDispatch();
-  const cartDispatch = useCartDispatch();
-  const { wishlist: wishlistItems } = useWishlistState();
-  const wishlistDispatch = useWishlistDispatch();
+  const { similarProducts: twoTvProducts, fetchSimilarProducts } = useAppData();
+  const { addToCart } = useCart();
+  const { wishlist: wishlistItems, addToWishlist } = useWishlist();
 
   const product = route.params?.product || {};
   const productId = product?._id || product?.id;
@@ -45,9 +34,9 @@ const ProductDetail = ({
 
   useEffect(() => {
     if (categoryName || productId) {
-      fetchSimilarProducts(appDispatch, categoryName, productId);
+      fetchSimilarProducts(categoryName);
     }
-  }, [categoryName, productId, appDispatch]);
+  }, [categoryName, productId]);
 
   // Guard against missing product data
   if (!product || !productId) {
@@ -113,12 +102,12 @@ const ProductDetail = ({
               >
                 <TouchableOpacity 
                   style={styles.wishlistButton}
-                  onPress={() => addToWishlist(wishlistDispatch, product)}
+                  onPress={() => addToWishlist(product)}
                 >
                   <Ionicons 
-                    name={wishlistItems?.some(item => item.id === product.id) ? "heart" : "heart-outline"}
+                    name={wishlistItems?.some(item => (item.id || item._id) === productId) ? "heart" : "heart-outline"}
                     size={26} 
-                    color={wishlistItems?.some(item => item.id === product.id) ? Colors.error : Colors.iconDefault}
+                    color={wishlistItems?.some(item => (item.id || item._id) === productId) ? Colors.error : Colors.iconDefault}
                   />
                 </TouchableOpacity>
               </Col>
@@ -153,7 +142,7 @@ const ProductDetail = ({
                 <TouchableOpacity
                   style={StyleSheet.flatten(styles.button)}
                   onPress={() => {
-                    addToCart(cartDispatch, product);
+                    addToCart(product);
                     navigation.navigate("Main", { screen: "CartStack", params: { screen: "Cart" } });
                   }}
                 >

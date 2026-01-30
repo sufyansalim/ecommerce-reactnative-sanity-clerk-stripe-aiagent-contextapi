@@ -18,15 +18,14 @@ import { SORT_LIST } from '../../../constants/SanityConstants';
 import { Col, Grid, Row } from "react-native-easy-grid";
 import { AntDesign,MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { useAppState, useAppDispatch, fetchTvShows } from '../../../context';
+import { useAppData } from '../../../store';
 import Colors from '../../../constants/Colors';
 
 const SORT_OPTIONS = SORT_LIST;
 
 const TVScreen = ({ navigation }) => {
   const { navigate, goBack } = useNavigation();
-  const { tvShows: TvProducts, tvShowsLoading: loading } = useAppState();
-  const dispatch = useAppDispatch();
+  const { tvShows: TvProducts, tvShowsLoading: loading, fetchTvShows } = useAppData();
   
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [selectedSort, setSelectedSort] = useState('default');
@@ -43,8 +42,8 @@ const TVScreen = ({ navigation }) => {
   );
 
   useEffect(() => {
-    fetchTvShows(dispatch);
-  }, [dispatch]);
+    fetchTvShows();
+  }, []);
 
   // Apply sorting
   const sortedTvShows = useMemo(() => {
