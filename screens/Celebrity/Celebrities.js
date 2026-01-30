@@ -24,12 +24,13 @@ const Celebrities = ({ navigation }) => {
     <CustomHeader navigation={navigation}>
       <View
         style={{
-          flex: 0.1,
+          height: 60,
           alignItems: "flex-start",
           justifyContent: "center",
           paddingLeft: 15,
           marginLeft: 15,
-          
+          paddingTop: 10,
+          marginBottom: 5
         }}
       >
         <Text style={styles.textStyle}>Celebrities</Text>

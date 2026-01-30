@@ -25,8 +25,8 @@ const Slides = ({ data, route, navigation, products, brandProducts }) => {
     <ScrollView
       showsVerticalScrollIndicator
       contentContainerStyle={{
-        flex: 1,
-        justifyContent: "center"
+        flexGrow: 1,
+        paddingVertical: 10
       }}
     >
       {data && data.length > 0 &&
@@ -74,31 +74,26 @@ export default Slides;
 
 const styles = StyleSheet.create({
   slideImageCol: {
-    flex: 0.5,
-    height: "auto",
-    alignItems: "flex-start"
-    // paddingLeft: 5,
-    // marginLeft: 5,
-    // paddingRight: 5,
-    // marginRight: 5
+    flexGrow: 1,
+    alignItems: "center",
+    paddingLeft: 5,
+    marginLeft: 5,
+    paddingRight: 5,
+    marginRight: 5,
+    marginBottom: 10
   },
   slideImage: {
-    flex: 1,
+    width: 100,
     height: 100,
-    width: 100
+    marginBottom: 5
   },
   slideName: {
     fontSize: 10,
+    paddingTop: 5,
     fontWeight: "bold",
-    fontFamily: "Roboto",
-    textAlign: "center",
-    paddingBottom: 5,
-    marginBottom: 5,
-    paddingTop: 5
+    textAlign: "center"
   },
   slideGrid: {
-    flex: 0.5,
-    paddingHorizontal: 8,
-    marginHorizontal: 8
+    marginBottom: 10
   }
 });

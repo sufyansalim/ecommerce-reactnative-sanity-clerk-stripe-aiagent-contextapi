@@ -105,11 +105,11 @@ const tools = [
 Available categories: Perfumes, Watches, Cufflinks, Phone Cases, Interior Decor, Watch Winders
 Available brands: Luxe Accessories, Chronolux, Artisan Home, Tempus Elite, Essence Arabia, Parfum Royal, Velour Living, TechShield, Horology House, Sterling & Co, Oro Watches, Maison Noir
 
-Prices are in QAR (Qatari Riyal). Typical price ranges:
-- Budget: under 200 QAR
-- Mid-range: 200-500 QAR  
-- Premium: 500-1000 QAR
-- Luxury: over 1000 QAR`,
+Prices are in USD. Typical price ranges:
+- Budget: under $50
+- Mid-range: $50-$150  
+- Premium: $150-$300
+- Luxury: over $300`,
     input_schema: {
       type: 'object',
       properties: {
@@ -159,7 +159,7 @@ async function processQuery(userQuery) {
   const context = await getStoreContext();
   const anthropic = getAnthropicClient();
   
-  const systemPrompt = `You are a helpful shopping assistant for Dokkani, a luxury goods store in Qatar.
+  const systemPrompt = `You are a helpful shopping assistant for Luxe, a luxury goods store in Qatar.
 Your job is to help customers find products based on their queries.
 
 The store sells:

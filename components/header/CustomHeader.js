@@ -38,7 +38,7 @@ export default function CustomHeader({ navigation: navProp, children }) {
           </TouchableOpacity>
         </View>
         <View style={styles.body}>
-          <Text style={styles.title}>Dokkani.co</Text>
+          <Text style={styles.title}>Luxe</Text>
         </View>
         <View style={styles.right}>
           <TouchableOpacity onPress={() => navigate('WishlistScreen')} style={styles.iconButton}>

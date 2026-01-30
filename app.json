@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "dokkani.co",
+    "name": "Luxe",
     "slug": "dokkani",
     "scheme": "dokkani",
-    "description": "Version 1.0 of Dokkani.co Ecommerce App",
+    "description": "Version 1.0 of Luxe Ecommerce App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

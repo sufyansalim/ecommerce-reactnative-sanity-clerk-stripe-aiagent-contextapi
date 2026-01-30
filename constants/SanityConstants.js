@@ -33,6 +33,7 @@ export const CATEGORY_LIST = Object.entries(CATEGORY_LABELS).map(([slug, name]) 
 // SORT OPTIONS
 // ═══════════════════════════════════════════════════════════════════════
 export const SORT_OPTIONS = {
+  DEFAULT: 'default',
   PRICE_LOW_HIGH: 'price_asc',
   PRICE_HIGH_LOW: 'price_desc',
   NAME_AZ: 'name_asc',
@@ -42,16 +43,17 @@ export const SORT_OPTIONS = {
 };
 
 export const SORT_LABELS = {
+  [SORT_OPTIONS.DEFAULT]: 'Default',
   [SORT_OPTIONS.PRICE_LOW_HIGH]: 'Price: Low to High',
   [SORT_OPTIONS.PRICE_HIGH_LOW]: 'Price: High to Low',
-  [SORT_OPTIONS.NAME_AZ]: 'Name: A-Z',
-  [SORT_OPTIONS.NAME_ZA]: 'Name: Z-A',
+  [SORT_OPTIONS.NAME_AZ]: 'Name: A to Z',
+  [SORT_OPTIONS.NAME_ZA]: 'Name: Z to A',
   [SORT_OPTIONS.NEWEST]: 'Newest First',
   [SORT_OPTIONS.FEATURED]: 'Featured',
 };
 
 export const SORT_LIST = Object.entries(SORT_LABELS).map(([value, label]) => ({
-  value,
+  id: value,
   label,
 }));
 

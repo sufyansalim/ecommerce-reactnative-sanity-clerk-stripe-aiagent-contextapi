@@ -14,19 +14,14 @@ import {
 import LoadingScreen from '../../../components/LoadingScreen';
 import EmptyListView from '../../../components/EmptyListView';
 import CustomHeader from '../../../components/header/CustomHeader.js';
+import { SORT_LIST } from '../../../constants/SanityConstants';
 import { Col, Grid, Row } from "react-native-easy-grid";
 import { AntDesign,MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useAppState, useAppDispatch, fetchTvShows } from '../../../context';
 import Colors from '../../../constants/Colors';
 
-const SORT_OPTIONS = [
-  { id: 'default', label: 'Default' },
-  { id: 'name-asc', label: 'Name: A to Z' },
-  { id: 'name-desc', label: 'Name: Z to A' },
-  { id: 'products-high', label: 'Most Products' },
-  { id: 'products-low', label: 'Least Products' },
-];
+const SORT_OPTIONS = SORT_LIST;
 
 const TVScreen = ({ navigation }) => {
   const { navigate, goBack } = useNavigation();

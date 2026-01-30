@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView, Image, TouchableOpacity, Text } from "rea
 import { Col, Grid } from "react-native-easy-grid";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
-import { useWishlistState, useWishlistDispatch, addToWishlist } from "../../context";
+import { useWishlistState, useWishlistDispatch, addToWishlist, removeFromWishlist } from "../../context";
 import Colors from "../../constants/Colors";
 import InfoModal from "../InfoModal";
 import Surface from "../Surface";
@@ -18,16 +18,37 @@ const TwoColSlide = ({ data, buttonText, style, navigation: navProp, home }) => 
   
   const [modalVisible, setModalVisible] = useState(false);
   const [addedProduct, setAddedProduct] = useState(null);
+  const [modalAction, setModalAction] = useState(''); // 'added' or 'removed'
   
-  const handleAddToWishlist = (product) => {
-    addToWishlist(wishlistDispatch, product);
-    setAddedProduct(product);
-    setModalVisible(true);
+  const isInWishlist = (product) => {
+    const productId = product.id || product._id;
+    return wishlistItems?.some(item => {
+      const itemId = item.id || item._id;
+      return itemId === productId;
+    });
+  };
+  
+  const handleToggleWishlist = (product) => {
+    if (isInWishlist(product)) {
+      // Remove from wishlist
+      const productId = product.id || product._id;
+      removeFromWishlist(wishlistDispatch, productId);
+      setAddedProduct(product);
+      setModalAction('removed');
+      setModalVisible(true);
+    } else {
+      // Add to wishlist
+      addToWishlist(wishlistDispatch, product);
+      setAddedProduct(product);
+      setModalAction('added');
+      setModalVisible(true);
+    }
   };
   
   const handleCloseModal = () => {
     setModalVisible(false);
     setAddedProduct(null);
+    setModalAction('');
   };
 
   const render = (data, buttonText, style) => {
@@ -129,13 +150,13 @@ const TwoColSlide = ({ data, buttonText, style, navigation: navProp, home }) => 
 
                 {!!!buttonText && (
                   <TouchableOpacity 
-                    onPress={() => handleAddToWishlist(product)}
+                    onPress={() => handleToggleWishlist(product)}
                     style={styles.wishlistButton}
                   >
                     <Ionicons 
-                      name={wishlistItems?.some(item => (item.id === product.id) || (item._id === product._id)) ? "heart" : "heart-outline"}
+                      name={isInWishlist(product) ? "heart" : "heart-outline"}
                       size={22} 
-                      color={wishlistItems?.some(item => (item.id === product.id) || (item._id === product._id)) ? Colors.error : Colors.iconDefault}
+                      color={isInWishlist(product) ? Colors.error : Colors.iconDefault}
                     />
                   </TouchableOpacity>
                 )}
@@ -167,8 +188,11 @@ const TwoColSlide = ({ data, buttonText, style, navigation: navProp, home }) => 
       
       <InfoModal
         visible={modalVisible}
-        title="Added to Wishlist"
-        message={`${addedProduct?.title || 'Item'} has been added to your wishlist!`}
+        title={modalAction === 'added' ? "Added to Wishlist" : "Removed from Wishlist"}
+        message={modalAction === 'added' 
+          ? `${addedProduct?.title || 'Item'} has been added to your wishlist!`
+          : `${addedProduct?.title || 'Item'} has been removed from your wishlist!`
+        }
         onClose={handleCloseModal}
         type="success"
       />

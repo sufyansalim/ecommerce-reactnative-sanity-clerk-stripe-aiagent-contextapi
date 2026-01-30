@@ -90,8 +90,10 @@ const Login = ({ route }) => {
     const handleGoogleSignIn = useCallback(async () => {
         try {
             setLoading(true);
-            const redirectUrl = Linking.createURL('/oauth-callback');
-            const { createdSessionId, setActive: setOAuthActive } = await startOAuthFlow({ redirectUrl });
+            const redirectUrl = Linking.createURL('oauth-callback');
+            const { createdSessionId, setActive: setOAuthActive } = await startOAuthFlow({ 
+                redirectUrl: redirectUrl 
+            });
             
             if (createdSessionId) {
                 await setOAuthActive({ session: createdSessionId });
@@ -99,6 +101,7 @@ const Login = ({ route }) => {
             }
         } catch (err) {
             console.error('Google OAuth error:', err);
+            console.error('Full error object:', JSON.stringify(err, null, 2));
             if (err.message !== 'OAuth flow was cancelled') {
                 Alert.alert('Error', 'Failed to sign in with Google. Please try again.');
             }

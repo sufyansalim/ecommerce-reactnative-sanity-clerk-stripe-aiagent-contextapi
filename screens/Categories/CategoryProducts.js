@@ -4,22 +4,19 @@ import { Ionicons } from '@expo/vector-icons';
 import CustomHeader from '../../components/header/CustomHeader';
 import TwoColSlide from '../../components/sliders/TwoColSlide';
 import { getProductsByCategory } from '../../constants/SanityClient';
+import { SORT_LIST, PRICE_RANGES } from '../../constants/SanityConstants';
 import Colors from '../../constants/Colors';
 
-const SORT_OPTIONS = [
-  { id: 'default', label: 'Default' },
-  { id: 'price_low', label: 'Price: Low to High' },
-  { id: 'price_high', label: 'Price: High to Low' },
-  { id: 'name_asc', label: 'Name: A to Z' },
-  { id: 'name_desc', label: 'Name: Z to A' },
-];
+const SORT_OPTIONS = SORT_LIST;
 
 const PRICE_FILTERS = [
   { id: 'all', label: 'All Prices', min: 0, max: Infinity },
-  { id: 'under_200', label: 'Under 200 QAR', min: 0, max: 200 },
-  { id: '200_500', label: '200 - 500 QAR', min: 200, max: 500 },
-  { id: '500_1000', label: '500 - 1000 QAR', min: 500, max: 1000 },
-  { id: 'over_1000', label: 'Over 1000 QAR', min: 1000, max: Infinity },
+  ...PRICE_RANGES.map(range => ({ 
+    id: range.id, 
+    label: range.label, 
+    min: range.min, 
+    max: range.max 
+  }))
 ];
 
 const CategoryProducts = (props) => {
@@ -45,11 +42,14 @@ const CategoryProducts = (props) => {
       // Transform Sanity data to match expected format
       const formattedProducts = data.map(product => ({
         id: product._id,
+        _id: product._id,
         title: product.title,
         price: `${product.price} QAR`,
         numericPrice: product.price,
         uri: product.image,
         productImage: product.image,
+        image: product.image,
+        images: product.images,
         category: product.category?.name || category,
         description: product.description,
         inStock: product.inStock,

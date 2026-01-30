@@ -5,7 +5,7 @@ export { AppProvider, useAppState, useAppDispatch, useApp } from './AppContext';
 export { AuthProvider, useAuth } from './AuthContext';
 
 // Re-export actions for convenience
-export { addToCart, deleteFromCart, clearCart } from '../actions/cartActions';
+export { addToCart, deleteFromCart, clearCart, updateCartQuantity } from '../actions/cartActions';
 export { addToWishlist, removeFromWishlist, clearWishlist } from '../actions/wishlistActions';
 export { 
   fetchBrands, 

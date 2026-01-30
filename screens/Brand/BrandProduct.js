@@ -18,30 +18,17 @@ import Surface from "../../components/Surface";
 import { Col, Grid, Row } from "react-native-easy-grid";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useAppState, useAppDispatch, setBrandProducts } from '../../context';
+import { SORT_LIST, CATEGORY_LIST } from '../../constants/SanityConstants';
 import Colors from '../../constants/Colors';
 
-const SORT_OPTIONS = [
-  { id: 'default', label: 'Default' },
-  { id: 'price-low', label: 'Price: Low to High' },
-  { id: 'price-high', label: 'Price: High to Low' },
-  { id: 'name-asc', label: 'Name: A to Z' },
-  { id: 'name-desc', label: 'Name: Z to A' },
-];
+const SORT_OPTIONS = SORT_LIST;
 
 const FILTER_CATEGORIES = [
   { id: 'all', label: 'All Categories' },
-  { id: 'Cufflinks', label: 'Cufflinks' },
-  { id: 'Phone Cases', label: 'Phone Cases' },
-  { id: 'Watch Winders', label: 'Watch Winders' },
-  { id: 'Perfumes', label: 'Perfumes' },
-  { id: 'Watches', label: 'Watches' },
-  { id: 'Interior Decor', label: 'Interior Decor' },
-  { id: 'Bags', label: 'Bags' },
-  { id: 'Electronics', label: 'Electronics' },
-  { id: 'Accessories', label: 'Accessories' },
-  { id: 'Eyewear', label: 'Eyewear' },
-  { id: 'Jewelry', label: 'Jewelry' },
-  { id: 'Footwear', label: 'Footwear' },
+  ...CATEGORY_LIST.map(cat => ({ 
+    id: cat.slug, 
+    label: cat.name 
+  }))
 ];
 
 const BrandProduct = ({ navigation, route }) => {

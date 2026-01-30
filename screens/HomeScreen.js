@@ -37,7 +37,6 @@ const HomeScreen = (props) => {
       
       if (error) throw new Error(error);
       
-      console.log('Homepage data from Sanity:', data);
       setCelebrities(data?.celebrities || []);
       setProducts(data?.featuredProducts || []);
       setBrands(data?.brands || []);

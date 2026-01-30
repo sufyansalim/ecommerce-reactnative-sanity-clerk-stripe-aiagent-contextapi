@@ -43,28 +43,32 @@ const SLIDE_DATA = [
 
 const DATA = [
   {
+      id: 'home-1',
       uri: require('../assets/images/home/products/blackwatch.jpg'),
       title: 'Apple Watch Band',
       name:'Green Band',
-      price: '130.00 QAR'
+      price: '$35'
   },
   {
+    id: 'home-2',
     uri: require('../assets/images/home/products/perfume.jpg'),
     title: 'Oud Perfume',
     name:'Aqua de Oud',
-    price: '430.00 QAR'
+    price: '$115'
 },
 {
+  id: 'home-3',
   uri: require('../assets/images/home/products/whitewatch.jpg'),
   title: 'Overdrive Watch',
   name:'D1 Edition',
-  price: '3700.00 QAR'
+  price: '$999'
 },
 {
+  id: 'home-4',
   uri: require('../assets/images/home/products/blackwatch.jpg'),
   title: 'Gold BlacK Case',
   name:'iphone X',
-  price: '120.00 QAR'
+  price: '$32'
 },
 ];
 

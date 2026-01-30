@@ -49,7 +49,7 @@ const products = [
   {
     title: 'Classic Moonphase Watch',
     slug: 'classic-moonphase',
-    price: 1800,
+    price: 485,
     description: 'Elegant moonphase complication with Swiss movement',
     categorySlug: 'watches',
     brandSlug: 'chronolux',
@@ -60,7 +60,7 @@ const products = [
   {
     title: 'Royal Oud Intense',
     slug: 'royal-oud-intense',
-    price: 380,
+    price: 102,
     description: 'Premium Arabian oud fragrance',
     categorySlug: 'perfumes',
     brandSlug: 'luxe-accessories',
@@ -71,7 +71,7 @@ const products = [
   {
     title: 'Bronze Horse Sculpture',
     slug: 'bronze-horse-sculpture',
-    price: 720,
+    price: 195,
     description: 'Hand-crafted bronze sculpture',
     categorySlug: 'interior-decor',
     brandSlug: 'artisan-home',
@@ -83,15 +83,75 @@ const products = [
 
 const celebrities = [
   {
-    name: 'Sheikh Khalid',
-    slug: 'sheikh-khalid',
+    name: 'Sophia Martinez',
+    slug: 'sophia-martinez',
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'Omar Al Farsi',
+    slug: 'omar-al-farsi',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop',
     banner: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop',
   },
   {
-    name: 'Princess Noura',
-    slug: 'princess-noura',
+    name: 'Isabella Chen',
+    slug: 'isabella-chen',
     image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'Lucas Thompson',
+    slug: 'lucas-thompson',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'Amira Al Thani',
+    slug: 'amira-al-thani',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'James Rodriguez',
+    slug: 'james-rodriguez',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'Zara Al Qassimi',
+    slug: 'zara-al-qassimi',
+    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'Ethan Williams',
+    slug: 'ethan-williams',
+    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'Layla Al Nahyan',
+    slug: 'layla-al-nahyan',
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'Alexander Brooks',
+    slug: 'alexander-brooks',
+    image: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'Maya Patel',
+    slug: 'maya-patel',
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&h=300&fit=crop',
+    banner: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=400&fit=crop',
+  },
+  {
+    name: 'Khalid Al Mansour',
+    slug: 'khalid-al-mansour',
+    image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=300&h=300&fit=crop',
     banner: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop',
   },
 ];

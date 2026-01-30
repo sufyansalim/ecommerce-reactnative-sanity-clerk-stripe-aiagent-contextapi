@@ -1,6 +1,6 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- * DOKKANI - SANITY MIGRATION SCRIPT
+ * LUXE - SANITY MIGRATION SCRIPT
  * ═══════════════════════════════════════════════════════════════════════════
  * 
  * This script pushes all mock data to Sanity CMS with proper relationships.
@@ -15,8 +15,8 @@
  * DATA SUMMARY:
  * - 6 Categories
  * - 12 Brands  
- * - 24 Products (4 per category)
- * - 12 Celebrities (with product endorsements)
+ * - 24 Products (4 per category) - USD pricing
+ * - 12 Celebrities (mix of international & Arabic names)
  * - 3 TV Shows (with featured products)
  * 
  * ═══════════════════════════════════════════════════════════════════════════
@@ -81,58 +81,58 @@ const brands = [
 // ═══════════════════════════════════════════════════════════════════════════
 const products = [
   // Cufflinks (4)
-  { title: 'Royal Gold Cufflinks', price: 450, category: 'Cufflinks', brand: 'Maison Noir', description: 'Elegant 18k gold cufflinks with intricate detailing.', image: 'https://images.unsplash.com/photo-1590548784585-643d2b9f2925?w=400&h=400&fit=crop', featured: true },
-  { title: 'Diamond Elite Cufflinks', price: 1200, category: 'Cufflinks', brand: 'Sterling & Co', description: 'Premium diamond-studded cufflinks.', image: 'https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=400&h=400&fit=crop', featured: true },
-  { title: 'Silver Classic Cufflinks', price: 320, category: 'Cufflinks', brand: 'Sterling & Co', description: 'Timeless sterling silver cufflinks.', image: 'https://images.unsplash.com/photo-1624526267942-ab0ff8a3e972?w=400&h=400&fit=crop', featured: false },
-  { title: 'Onyx Prestige Cufflinks', price: 580, category: 'Cufflinks', brand: 'Maison Noir', description: 'Black onyx cufflinks in white gold.', image: 'https://images.unsplash.com/photo-1590548784585-643d2b9f2925?w=400&h=400&fit=crop', featured: false },
+  { title: 'Royal Gold Cufflinks', price: 120, category: 'Cufflinks', brand: 'Maison Noir', description: 'Elegant 18k gold cufflinks with intricate detailing.', image: 'https://images.unsplash.com/photo-1590548784585-643d2b9f2925?w=400&h=400&fit=crop', featured: true },
+  { title: 'Diamond Elite Cufflinks', price: 325, category: 'Cufflinks', brand: 'Sterling & Co', description: 'Premium diamond-studded cufflinks.', image: 'https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=400&h=400&fit=crop', featured: true },
+  { title: 'Silver Classic Cufflinks', price: 85, category: 'Cufflinks', brand: 'Sterling & Co', description: 'Timeless sterling silver cufflinks.', image: 'https://images.unsplash.com/photo-1624526267942-ab0ff8a3e972?w=400&h=400&fit=crop', featured: false },
+  { title: 'Onyx Prestige Cufflinks', price: 155, category: 'Cufflinks', brand: 'Maison Noir', description: 'Black onyx cufflinks in white gold.', image: 'https://images.unsplash.com/photo-1590548784585-643d2b9f2925?w=400&h=400&fit=crop', featured: false },
   
   // Phone Cases (4)
-  { title: 'Croco Leather Case', price: 185, category: 'Phone Cases', brand: 'Luxe Accessories', description: 'Genuine crocodile leather phone case.', image: 'https://images.unsplash.com/photo-1601593346740-925612772716?w=400&h=400&fit=crop', featured: true },
-  { title: 'Carbon Shield Pro', price: 150, category: 'Phone Cases', brand: 'TechShield', description: 'Military-grade carbon fiber case.', image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&h=400&fit=crop', featured: true },
-  { title: 'Alcantara Slim Case', price: 120, category: 'Phone Cases', brand: 'Luxe Accessories', description: 'Ultra-slim Alcantara suede case.', image: 'https://images.unsplash.com/photo-1609692814858-f7cd2f0afa4f?w=400&h=400&fit=crop', featured: false },
-  { title: 'Gold Trim Edition', price: 250, category: 'Phone Cases', brand: 'Luxe Accessories', description: 'Leather case with 24k gold trim.', image: 'https://images.unsplash.com/photo-1601593346740-925612772716?w=400&h=400&fit=crop', featured: false },
+  { title: 'Croco Leather Case', price: 50, category: 'Phone Cases', brand: 'Luxe Accessories', description: 'Genuine crocodile leather phone case.', image: 'https://images.unsplash.com/photo-1601593346740-925612772716?w=400&h=400&fit=crop', featured: true },
+  { title: 'Carbon Shield Pro', price: 40, category: 'Phone Cases', brand: 'TechShield', description: 'Military-grade carbon fiber case.', image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&h=400&fit=crop', featured: true },
+  { title: 'Alcantara Slim Case', price: 32, category: 'Phone Cases', brand: 'Luxe Accessories', description: 'Ultra-slim Alcantara suede case.', image: 'https://images.unsplash.com/photo-1609692814858-f7cd2f0afa4f?w=400&h=400&fit=crop', featured: false },
+  { title: 'Gold Trim Edition', price: 68, category: 'Phone Cases', brand: 'Luxe Accessories', description: 'Leather case with 24k gold trim.', image: 'https://images.unsplash.com/photo-1601593346740-925612772716?w=400&h=400&fit=crop', featured: false },
   
   // Watch Winders (4)
-  { title: 'Solo Watch Winder', price: 350, category: 'Watch Winders', brand: 'Horology House', description: 'Single watch winder with quiet motor.', image: 'https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=400&h=400&fit=crop', featured: true },
-  { title: 'Duo Automatic Winder', price: 650, category: 'Watch Winders', brand: 'Horology House', description: 'Dual watch winder with rotation settings.', image: 'https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=400&h=400&fit=crop', featured: true },
-  { title: 'Prestige Collection Box', price: 1500, category: 'Watch Winders', brand: 'Horology House', description: 'Luxury 4-watch winder in piano black.', image: 'https://images.unsplash.com/photo-1526045431048-f857369baa09?w=400&h=400&fit=crop', featured: false },
-  { title: 'Travel Watch Winder', price: 480, category: 'Watch Winders', brand: 'Horology House', description: 'Compact portable winder with USB.', image: 'https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=400&h=400&fit=crop', featured: false },
+  { title: 'Solo Watch Winder', price: 95, category: 'Watch Winders', brand: 'Horology House', description: 'Single watch winder with quiet motor.', image: 'https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=400&h=400&fit=crop', featured: true },
+  { title: 'Duo Automatic Winder', price: 175, category: 'Watch Winders', brand: 'Horology House', description: 'Dual watch winder with rotation settings.', image: 'https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=400&h=400&fit=crop', featured: true },
+  { title: 'Prestige Collection Box', price: 405, category: 'Watch Winders', brand: 'Horology House', description: 'Luxury 4-watch winder in piano black.', image: 'https://images.unsplash.com/photo-1526045431048-f857369baa09?w=400&h=400&fit=crop', featured: false },
+  { title: 'Travel Watch Winder', price: 130, category: 'Watch Winders', brand: 'Horology House', description: 'Compact portable winder with USB.', image: 'https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=400&h=400&fit=crop', featured: false },
   
   // Perfumes (4)
-  { title: 'Royal Oud Intense', price: 380, category: 'Perfumes', brand: 'Parfum Royal', description: 'Rich Arabian oud with rose accents.', image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=400&fit=crop', featured: true },
-  { title: 'French Riviera', price: 450, category: 'Perfumes', brand: 'Essence Arabia', description: 'Fresh citrus and marine notes.', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=400&fit=crop', featured: false },
-  { title: 'Arabian Nights Musk', price: 320, category: 'Perfumes', brand: 'Essence Arabia', description: 'Warm white musk with amber.', image: 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=400&h=400&fit=crop', featured: false },
-  { title: 'Desert Rose Elixir', price: 520, category: 'Perfumes', brand: 'Parfum Royal', description: 'Rare Taif rose with precious woods.', image: 'https://images.unsplash.com/photo-1595425964071-2c1ecb10b52d?w=400&h=400&fit=crop', featured: false },
+  { title: 'Royal Oud Intense', price: 102, category: 'Perfumes', brand: 'Parfum Royal', description: 'Rich Arabian oud with rose accents.', image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=400&fit=crop', featured: true },
+  { title: 'French Riviera', price: 120, category: 'Perfumes', brand: 'Essence Arabia', description: 'Fresh citrus and marine notes.', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400&h=400&fit=crop', featured: false },
+  { title: 'Arabian Nights Musk', price: 85, category: 'Perfumes', brand: 'Essence Arabia', description: 'Warm white musk with amber.', image: 'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=400&h=400&fit=crop', featured: false },
+  { title: 'Desert Rose Elixir', price: 140, category: 'Perfumes', brand: 'Parfum Royal', description: 'Rare Taif rose with precious woods.', image: 'https://images.unsplash.com/photo-1595425964071-2c1ecb10b52d?w=400&h=400&fit=crop', featured: false },
   
   // Watches (4)
-  { title: 'Chronograph Elite', price: 2500, category: 'Watches', brand: 'Tempus Elite', description: 'Swiss automatic chronograph.', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop', featured: true },
-  { title: 'Smart Executive Watch', price: 850, category: 'Watches', brand: 'Chronolux', description: 'Hybrid smartwatch with classic design.', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop', featured: false },
-  { title: 'Classic Moonphase', price: 1800, category: 'Watches', brand: 'Oro Watches', description: 'Elegant moonphase complication.', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop', featured: false },
-  { title: 'Diver Professional', price: 1950, category: 'Watches', brand: 'Tempus Elite', description: '300m water resistant diver watch.', image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&h=400&fit=crop', featured: false },
+  { title: 'Chronograph Elite', price: 675, category: 'Watches', brand: 'Tempus Elite', description: 'Swiss automatic chronograph.', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop', featured: true },
+  { title: 'Smart Executive Watch', price: 230, category: 'Watches', brand: 'Chronolux', description: 'Hybrid smartwatch with classic design.', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop', featured: false },
+  { title: 'Classic Moonphase', price: 485, category: 'Watches', brand: 'Oro Watches', description: 'Elegant moonphase complication.', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=400&fit=crop', featured: false },
+  { title: 'Diver Professional', price: 525, category: 'Watches', brand: 'Tempus Elite', description: '300m water resistant diver watch.', image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&h=400&fit=crop', featured: false },
   
   // Interior Decor (4)
-  { title: 'Crystal Orchid Vase', price: 380, category: 'Interior Decor', brand: 'Velour Living', description: 'Hand-blown crystal vase.', image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop', featured: false },
-  { title: 'Gilded Photo Frame', price: 250, category: 'Interior Decor', brand: 'Artisan Home', description: '24k gold-plated frame.', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=400&fit=crop', featured: false },
-  { title: 'Bronze Horse Sculpture', price: 720, category: 'Interior Decor', brand: 'Artisan Home', description: 'Limited edition bronze sculpture.', image: 'https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=400&h=400&fit=crop', featured: false },
-  { title: 'Marble Chess Set', price: 950, category: 'Interior Decor', brand: 'Velour Living', description: 'Hand-carved marble chess set.', image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop', featured: false },
+  { title: 'Crystal Orchid Vase', price: 102, category: 'Interior Decor', brand: 'Velour Living', description: 'Hand-blown crystal vase.', image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop', featured: false },
+  { title: 'Gilded Photo Frame', price: 68, category: 'Interior Decor', brand: 'Artisan Home', description: '24k gold-plated frame.', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&h=400&fit=crop', featured: false },
+  { title: 'Bronze Horse Sculpture', price: 195, category: 'Interior Decor', brand: 'Artisan Home', description: 'Limited edition bronze sculpture.', image: 'https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=400&h=400&fit=crop', featured: false },
+  { title: 'Marble Chess Set', price: 255, category: 'Interior Decor', brand: 'Velour Living', description: 'Hand-carved marble chess set.', image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop', featured: false },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
 // DATA - Celebrities
 // ═══════════════════════════════════════════════════════════════════════════
 const celebrities = [
-  { name: 'Sheikh Ahmed Al-Thani', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=300&fit=crop', productIndices: [0, 16] },
-  { name: 'Omar Khalid', image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&h=300&fit=crop', productIndices: [1, 18] },
-  { name: 'Hassan bin Rashid', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=300&fit=crop', productIndices: [4, 12] },
-  { name: 'Faisal Al-Saud', image: 'https://images.unsplash.com/photo-1522556189639-b150ed9c4330?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1522556189639-b150ed9c4330?w=800&h=300&fit=crop', productIndices: [8, 19] },
-  { name: 'Khalid bin Mohammed', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&h=300&fit=crop', productIndices: [5, 20] },
-  { name: 'Abdulaziz Al-Maktoum', image: 'https://images.unsplash.com/photo-1528892952291-009c663ce843?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1528892952291-009c663ce843?w=800&h=300&fit=crop', productIndices: [9, 17] },
-  { name: 'Sultan Al-Nahyan', image: 'https://images.unsplash.com/photo-1480429370612-39b7fba4ba00?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1480429370612-39b7fba4ba00?w=800&h=300&fit=crop', productIndices: [10, 13] },
-  { name: 'Tariq Al-Jaber', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=300&fit=crop', productIndices: [21, 6] },
-  { name: 'Mohammed Al-Attiyah', image: 'https://images.unsplash.com/photo-1463453091185-61582044d556?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1463453091185-61582044d556?w=800&h=300&fit=crop', productIndices: [22, 14] },
-  { name: 'Yusuf bin Hamad', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=300&fit=crop', productIndices: [23, 2] },
-  { name: 'Sheikha Fatima', image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&h=300&fit=crop', productIndices: [15, 7] },
-  { name: 'Princess Noura', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&h=300&fit=crop', productIndices: [11, 3] },
+  { name: 'Sophia Martinez', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=300&fit=crop', productIndices: [12, 13, 20] },
+  { name: 'Omar Al Farsi', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=300&fit=crop', productIndices: [16, 0] },
+  { name: 'Isabella Chen', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&h=300&fit=crop', productIndices: [4, 14, 21] },
+  { name: 'Lucas Thompson', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&h=300&fit=crop', productIndices: [8, 17] },
+  { name: 'Amira Al Thani', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=800&h=300&fit=crop', productIndices: [15, 22, 7] },
+  { name: 'James Rodriguez', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=300&fit=crop', productIndices: [1, 18] },
+  { name: 'Zara Al Qassimi', image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=300&fit=crop', productIndices: [5, 13, 23] },
+  { name: 'Ethan Williams', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&h=300&fit=crop', productIndices: [9, 19] },
+  { name: 'Layla Al Nahyan', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=300&fit=crop', productIndices: [6, 12, 20] },
+  { name: 'Alexander Brooks', image: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800&h=300&fit=crop', productIndices: [2, 10] },
+  { name: 'Maya Patel', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=300&fit=crop', productIndices: [14, 21, 3] },
+  { name: 'Khalid Al Mansour', image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=200&h=200&fit=crop', banner: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=300&fit=crop', productIndices: [11, 16] },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════

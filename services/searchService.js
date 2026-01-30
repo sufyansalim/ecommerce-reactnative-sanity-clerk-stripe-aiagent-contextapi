@@ -49,7 +49,7 @@ export async function aiSearch(query, userId = null) {
 export function getSearchSuggestions(partialQuery) {
   // Common search suggestions - these could be fetched from API
   const suggestions = [
-    'luxury watches under 2000 QAR',
+    'luxury watches under $500',
     'perfumes for men',
     'interior decor items',
     'premium cufflinks',
@@ -58,7 +58,7 @@ export function getSearchSuggestions(partialQuery) {
     'featured products',
     'products in stock',
     'Arabian perfumes',
-    'gift ideas under 500 QAR',
+    'gift ideas under $120',
   ];
 
   if (!partialQuery) {
@@ -75,7 +75,7 @@ export function getSearchSuggestions(partialQuery) {
  * Example queries users can try
  */
 export const exampleQueries = [
-  "Show me luxury watches under 2000 QAR",
+  "Show me luxury watches under $500",
   "I'm looking for Arabian perfumes",
   "Find phone cases",
   "What interior decor do you have?",

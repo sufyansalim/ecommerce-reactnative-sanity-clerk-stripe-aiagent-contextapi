@@ -71,15 +71,62 @@ cd dokkani.co
 
 ### 2. Install React Native Dependencies
 
+> **⚠️ IMPORTANT:** This project requires `--legacy-peer-deps` due to React version conflicts between dependencies.
+
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
+
+## 📦 Dependency Management Best Practices
+
+### **Recommended: Use npm with --legacy-peer-deps**
+
+For this React Native project, **npm with --legacy-peer-deps is recommended** over expo install for the following reasons:
+
+#### ✅ **Why npm --legacy-peer-deps?**
+- **Compatibility**: Handles React Native version conflicts between dependencies
+- **Reliability**: More stable for projects with complex dependency trees
+- **Control**: Better version management and package resolution
+- **Performance**: Faster installation than expo install
+- **Industry Standard**: Standard approach for React Native projects
+
+#### ❌ **Why not expo install?**
+- **Limited Control**: Less flexible with version resolution
+- **Compatibility Issues**: May not handle peer dependency conflicts well
+- **Slower**: Generally slower installation process
+- **Deprecated**: Expo CLI is being phased out in favor of Expo dev tools
+
+### **Installation Commands**
+
+**Always use `--legacy-peer-deps` for any npm operations in this project:**
+- Installing dependencies: `npm install --legacy-peer-deps`
+- Adding new packages: `npm install --legacy-peer-deps package-name`
+- Updating packages: `npm update --legacy-peer-deps`
+
+### **Alternative: Using npx expo install (if needed)**
+
+If you encounter specific Expo SDK compatibility issues, you can use:
+```bash
+npx expo install package-name
+```
+
+But prefer npm for general dependency management.
+
+### **Package Manager Priority**
+1. **npm with --legacy-peer-deps** (Recommended)
+2. **yarn** (Alternative)
+3. **npx expo install** (Only for Expo-specific packages if needed)
+
+**Always use `--legacy-peer-deps` for any npm operations in this project:**
+- Installing dependencies: `npm install --legacy-peer-deps`
+- Adding new packages: `npm install --legacy-peer-deps package-name`
+- Updating packages: `npm update --legacy-peer-deps`
 
 ### 3. Install API Server Dependencies
 
 ```bash
 cd api
-npm install
+npm install --legacy-peer-deps
 cd ..
 ```
 
@@ -87,7 +134,7 @@ cd ..
 
 ```bash
 cd studio
-npm install
+npm install --legacy-peer-deps
 cd ..
 ```
 
@@ -466,12 +513,152 @@ npm run deploy
 # Deploy schema only
 npx sanity schema deploy
 
-# Export data
-npx sanity dataset export production ./backup.tar.gz
+# Data Management Scripts
+npm run push              # Push all data to Sanity
+npm run push:dry          # Dry run (preview changes)
+npm run push:products     # Push only products
+npm run push:categories   # Push only categories
+npm run push:celebrities  # Push only celebrities
+npm run push:tv           # Push only TV shows
 
-# Import data
+# Document Management
+npm run publish           # Publish draft documents
+npm run publish:dry       # Dry run publish
+
+# Bulk Operations
+npm run bulk              # Interactive bulk operations
+npm run bulk:list         # List all drafts
+npm run bulk:publish      # Publish all drafts
+npm run bulk:discard      # Discard all drafts
+
+# Data Export/Import
+npx sanity dataset export production ./backup.tar.gz
 npx sanity dataset import ./data.ndjson production
 ```
+
+### 📊 Data Management & Import
+
+The project includes a comprehensive `data.ndjson` file with complete sample data for all entity types and their relationships.
+
+#### Data Structure Overview
+
+The `data.ndjson` file contains:
+- **6 luxury categories** (Watches, Perfumes, Phone Cases, Jewelry, Accessories, Clothing)
+- **6 premium brands** (Rolex, Chanel, Louis Vuitton, Cartier, Hermès, Gucci)
+- **11+ products** with full image galleries (4-5 images per product)
+- **3 celebrity profiles** (Priyanka Chopra, Will Smith, Emma Stone)
+- **3 TV shows** (Suits, Succession, Emily in Paris)
+- **Customer and order samples** for testing checkout flows
+
+#### Product Image Galleries
+
+All products in the data file include comprehensive image arrays:
+```json
+"images": [
+  {
+    "_type": "image",
+    "asset": {
+      "_type": "reference", 
+      "_ref": "image-hash"
+    }
+  }
+]
+```
+
+**Image Collections by Category:**
+- **Watches**: Luxury timepieces (Rolex, Omega, Cartier)
+- **Perfumes**: Premium fragrances (Chanel, Tom Ford, Creed)
+- **Phone Cases**: Designer accessories (Louis Vuitton, Gucci)
+- **Jewelry**: Elegant pieces (Cartier, Tiffany)
+- **Accessories**: Luxury items (Hermès, designer collections)
+
+#### Relationships & References
+
+The data includes proper Sanity reference relationships:
+- **Products → Categories**: Each product linked to appropriate category
+- **Products → Brands**: Brand references for authenticity
+- **Celebrity → Products**: Endorsement relationships
+- **TV Shows → Products**: Product placement connections
+- **Orders → Products**: Purchase history tracking
+
+#### Import Procedures
+
+1. **Ensure Studio is Running**:
+   ```bash
+   cd studio
+   npm run dev
+   ```
+
+2. **Deploy Schema First**:
+   ```bash
+   npx sanity schema deploy
+   ```
+
+3. **Import Data**:
+   ```bash
+   npx sanity dataset import ./data.ndjson production
+   ```
+
+4. **Verify Import**:
+   - Check Sanity Studio for data
+   - Test app navigation and product displays
+   - Verify image galleries are working
+
+#### Data Validation Checklist
+
+**Before Import**:
+- [ ] Schema deployed successfully
+- [ ] Studio accessible at localhost:3333
+- [ ] data.ndjson file present in project root
+
+**After Import**:
+- [ ] All categories visible in app
+- [ ] Products display with image galleries
+- [ ] Brand and celebrity pages populated  
+- [ ] Search functionality working
+- [ ] Cart and wishlist operations functional
+
+#### Troubleshooting Import Issues
+
+**Common Problems & Solutions**:
+
+- **Schema Mismatch**: Redeploy schema before import
+- **Missing Images**: Check asset references in Sanity Studio
+- **Relationship Errors**: Verify reference IDs exist
+- **Permission Issues**: Ensure proper Sanity project access
+
+**Validate Data Integrity**:
+```bash
+# Check for missing references
+npx sanity dataset import ./data.ndjson production --replace
+
+# Export current data for backup
+npx sanity dataset export production ./backup-$(date +%Y%m%d).tar.gz
+```
+
+#### Adding Missing Data
+
+If you need to add relationships or missing data:
+
+1. **Update data.ndjson** with new entities
+2. **Re-import** using replace flag:
+   ```bash
+   npx sanity dataset import ./data.ndjson production --replace
+   ```
+3. **Or use Studio** for individual additions
+4. **Run bulk image script** if new products need galleries
+
+#### Maintenance Commands
+
+```bash
+# Export current production data
+npx sanity dataset export production ./current-data.tar.gz
+
+# Create development dataset copy
+npx sanity dataset copy production development
+
+# Clean import (replaces all data)
+npx sanity dataset import ./data.ndjson production --replace
 
 ---
 

@@ -78,7 +78,7 @@ const ProductDetail = ({
             justifyContent: "center"
           }}
         >
-          <ImageSwiper images={product.images || []} />
+          <ImageSwiper images={product.images || []} product={product} />
         </View>
         <View
           style={{

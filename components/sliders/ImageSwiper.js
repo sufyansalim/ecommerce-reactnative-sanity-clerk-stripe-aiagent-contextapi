@@ -22,7 +22,25 @@ const SLIDE_DATA = [
   ];
 
 const ImageSwiper = (props) => {
-  const images = (props.images && props.images.length > 0) ? props.images : SLIDE_DATA;
+  // Try multiple sources for images
+  let images = [];
+  
+  if (props.images && props.images.length > 0) {
+    // Use provided images array
+    images = props.images;
+  } else if (props.product?.images && props.product.images.length > 0) {
+    // Use images from product object
+    images = props.product.images;
+  } else if (props.product?.image) {
+    // Use single main image
+    images = [props.product.image];
+  } else if (props.product?.productImage) {
+    // Use productImage field (sometimes used in product lists)
+    images = [props.product.productImage];
+  } else {
+    // Last resort: use default images
+    images = SLIDE_DATA;
+  }
   
   // Simple image display without external swiper dependency
   const [currentIndex, setCurrentIndex] = React.useState(0);
