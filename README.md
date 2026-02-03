@@ -1,4 +1,4 @@
-# Dokkani.co - E-Commerce Mobile App
+# Luxe - E-Commerce Mobile App
 
 A React Native e-commerce application with Stripe payments, Sanity CMS backend, Clerk authentication, and **AI-powered product search**.
 
